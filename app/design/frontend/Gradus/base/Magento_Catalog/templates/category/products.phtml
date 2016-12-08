@@ -1,0 +1,39 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Category view template
+ *
+ * @var $block \Magento\Catalog\Block\Category\View
+ */
+?>
+<?php
+$category = $this->getCurrentCategory();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+?>
+<?php if ($category->getLevel() <= 2) : ?>
+    <div class="subcategory_listing">
+    <?php foreach ($category->getChildrenCategories() as $child) : ?>
+        <?php $cat = $objectManager->create('Magento\Catalog\Model\Category')->load($child->getId()); ?>
+        <div class="row">
+            <div class="item col-md-3 col-xs6 form-group">
+                <a class="item-link" href="<?= $child->getUrl() ?>">
+                    <img alt="<?= $child->getName() ?>" src="<?= $cat->getImageUrl() ?>" />
+                    <h4><?= $child->getName() ?></h4>
+                </a>
+            </div>
+        </div>
+    <?php endforeach ?>
+    </div>
+<?php else: ?>
+<?php if (!$block->isContentMode() || $block->isMixedMode()): ?>
+    <?php echo $block->getProductListHtml() ?>
+<?php endif; ?>
+<?php endif ?>
