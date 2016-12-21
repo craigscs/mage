@@ -1,0 +1,147 @@
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<?php
+//$info = array();
+//$info[0]["header"]['header_name'] = 'System';
+//$info[0]["header"][1]["name"] = "Test Name";
+//$info[0]["header"][1]["desc"] = "Test Des";
+//$info[0]["header"][2]["name"] = "Test Name 1";
+//$info[0]["header"][2]["desc"] = "Test Desc 1";
+//
+//$info[1]["header"]['header_name'] = 'Information';
+//$info[1]["header"][1]["name"] = "Test Name";
+//$info[1]["header"][1]["desc"] = "Test Des";
+//$info[1]["header"][2]["name"] = "Test Name 1";
+//$info[1]["header"][2]["desc"] = "Test Desc 1";
+
+$tech = $this->getProduct()->getData('tech_specs');
+$info = json_decode($tech, true);
+
+$count = 0;
+?>
+
+<div class="admin__field-complex" data-bind="css: $data.additionalClasses, attr: {'data-index': index}" data-index="container_header">
+    <!-- ko if: label --><!-- /ko -->
+    <div class="admin__field-complex-elements" data-bind="foreach: {data: elems, as: 'element'}"><!-- ko template: getTemplate() -->
+        <!-- ko if: visible --><!-- ko template: elementTmpl -->
+        <button style="display:none" type="button" class="action-advanced">
+            <span data-bind="text: title">Import Headers</span>
+        </button>
+        <button onclick="addHeader()" type="button">
+            <span data-bind="text: title">Add Header</span>
+        </button>
+    </div>
+</div>
+
+<div id="headers_container">
+    <?php if (!is_null($info)) : ?>
+    <?php foreach ($info as $header) : ?>
+        <?php $speccount = 0 ?>
+    <div class="header_div" id="header_div_<?= $count ?>">
+        <h3 id="header_title_<?= $count ?>"><div style="display:inline-block; cursor:move" class="draggable-handle">Q</div>
+            <?= $header['header']['header_name'] ?>
+            <button style="float:right; width:20px; height:20px; font-size:10px;" onclick="deleteHeader('header_div_<?= $count ?>')">X</button>
+        </h3>
+        <div>
+        <table id="header_table_<?= $count ?>">
+            <tr>
+                <td>
+                    <label for="header_text_<?= $count ?>">Header Text</label>
+                    <input onchange="updateHeader(this.value, 'header_title_<?= $count ?>')" id="header_title_<?= $count ?>" data-form-part="product_form" name="techspec[<?= $count?>][header][header_name]"
+                           id="header_text_<?= $count?>" value="<?= $header['header']['header_name'] ?>"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="spec_td">
+                    <?php foreach ($header as $specs) : ?>
+                        <?php foreach ($specs as $spec) : ?>
+                        <?php if ($speccount > 0) : ?>
+                    <div class="specs_row" id ="spec_row_<?= $count ?>_<?= $speccount ?>">
+                        <div style="display:inline-block; cursor:move" class="draggable-handle2">Q</div>
+                            <label for="spec_name_".<?= $speccount ?>>Spec Name</label>
+                            <input data-form-part="product_form" name="techspec[<?= $count?>][header][<?= $speccount ?>][name]" id="spec_name_".<?= $speccount ?> value="<?= $spec['name'] ?>"/>
+                            <label for="spec_desc_".<?= $speccount ?>>Spec Description</label>
+                            <textarea data-form-part="product_form" name="techspec[<?= $count?>][header][<?= $speccount ?>][desc] id="spec_desc_".<?= $speccount ?> value="<?= $spec['desc'] ?>"/>
+                            <button onclick="deleteHeader('spec_row_<?= $count ?>_<?= $speccount ?>')">X</button>
+                        </div>
+                            <?php endif ?>
+                        <?php $speccount++ ?>
+                    <?php endforeach ?>
+                    <?php endforeach ?>
+                </td>
+            </tr>
+        </table>
+            <button onclick="addSpec('header_table_<?= $count ?>')">Add Spec</button>
+            </div>
+    </div>
+        <?php $count++ ?>
+    <?php endforeach ?>
+    <?php endif ?>
+</div>
+
+<script>
+    var $q = jQuery.noConflict();
+
+    $q( document ).ready(function() {
+        $q('#headers_container').accordion({
+            header: "> div > h3"
+        }).sortable({ handle: '.draggable-handle' });
+        $q('.spec_td').sortable({ handle: '.draggable-handle2' });
+    });
+
+    function updateHeader(s, i)
+    {
+        $q('#'+i).html(s);
+    }
+
+    function addHeader()
+    {
+        var count = $q('div.header_div').length+1;
+
+        var template = '<div class="header_div" id="header_div_'+count+'">'+
+            '<h3 id="header_title_'+count+'"><div style="display:inline-block" class="draggable-handle">Q</div>Header' +
+            '<button style="float:right; width:20px; height:20px; font-size:10px;" onclick="deleteHeader(\'header_div_'+count+'\')">X</button>' +
+            '</h3>'+
+        '<table id="header_table_'+count+'">'+
+            '<tr><td>'+
+        '<label for="header_text_'+count+'">Header Text</label>'+
+      '<input onchange="updateHeader(this.value, \'header_title_'+count+'\')" data-form-part="product_form"' +
+       'name="techspec['+count+'][header][header_name]" id="header_text_'+count+'" />'+
+        '</td></tr>'+
+        '<tr><td>'+
+        '<div class="specs_row" id ="spec_row_'+count+'_0">'+
+        '<div style="display:inline-block" class="draggable-handle2">Q</div>'+
+        '<label for="spec_name_0">Spec Name</label>'+
+        '<input data-form-part="product_form" name="techspec['+count+'][header][0][name]" id="spec_name_0" value="">'+
+        '<label for="spec_desc_0">Spec Description</label>'+
+        '<textarea data-form-part="product_form" name="techspec['+count+'][header][0][desc]" id="spec_desc_0" value=""/>'+
+        '<button onclick="deleteHeader(\'spec_row_'+count+'_0\')">X</button>'+
+        '</div>'+
+        '</td></tr></table>'+
+        '<button onclick="addSpec(\'header_table_'+count+'\')">Add Spec</button>'+
+            '</div>';
+        $q('#headers_container').append(template);
+    }
+
+    function addSpec(appendTo)
+    {
+        var count = parseInt(appendTo.split("_")[2]);
+        var counts = $q('div.header_div table tr').length;
+        var template =
+            '<tr><td>'+
+            '<div class="specs_row" id ="spec_row_'+count+'_'+counts+'">'+
+            '<div style="display:inline-block" class="draggable-handle2">Q</div>'+
+            '<label for="spec_name_"'+count+'>Spec Name</label>'+
+            '<input data-form-part="product_form" name="techspec['+count+'][header]['+counts+'][name]" id="spec_name_0" value="">'+
+            '<label for="spec_desc_"+count>Spec Description</label>'+
+            '<textarea data-form-part="product_form" name="techspec['+count+'][header]['+counts+'][desc]" id="spec_desc_0" value=""/>'+
+            '<button onclick="deleteHeader(\'spec_row_'+count+'_'+counts+'\')">X</button>'+
+            '</div><br>'+
+            '</td></tr>';
+        $q('#'+appendTo).append(template);
+    }
+
+    function deleteHeader(id)
+    {
+        $q('#'+id).remove();
+    }
+</script>

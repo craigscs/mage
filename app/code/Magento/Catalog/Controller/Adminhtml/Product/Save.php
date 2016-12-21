@@ -92,7 +92,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
         $redirectBack = $this->getRequest()->getParam('back', false);
         $productId = $this->getRequest()->getParam('id');
         $resultRedirect = $this->resultRedirectFactory->create();
-        $data = $this->getRequest()->getPostValue();
+        $data = $this->getRequest()->getParams();
         $productAttributeSetId = $this->getRequest()->getParam('set');
         $productTypeId = $this->getRequest()->getParam('type');
         if ($data) {
@@ -108,7 +108,9 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
                 }
 
                 $originalSku = $product->getSku();
+                $product->setData('tech_specs', $this->tss);
                 $product->save();
+
                 $this->handleImageRemoveError($data, $product->getId());
                 $this->getCategoryLinkManagement()->assignProductToCategories(
                     $product->getSku(),
