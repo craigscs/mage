@@ -16,7 +16,6 @@
 
 $tech = $this->getProduct()->getData('tech_specs');
 $info = json_decode($tech, true);
-
 $count = 0;
 ?>
 
@@ -41,8 +40,7 @@ $count = 0;
         <h3 id="header_title_<?= $count ?>">
             <div class="draggable-handle"></div>
             <div id="h_text_<?= $count ?>" class="header_txt"><?= $header['header']['header_name'] ?></div>
-            <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('header_div_<?= $count ?>')">
-                <img src="http://gradus.dev/pub/static/version1482359685/adminhtml/Magento/backend/en_US/Gradus_TechSpecs/images/trash.png" /></a>
+            <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('header_div_<?= $count ?>')"></a>
         </h3>
         <div>
         <table id="header_table_<?= $count ?>">
@@ -68,7 +66,7 @@ $count = 0;
                             <textarea data-form-part="product_form" name="techspec[<?= $count?>][header][<?= $speccount ?>][desc] id="spec_desc_<?= $speccount ?>"
                         value="<?= $spec['desc'] ?>"><?= $spec{'desc'} ?></textarea>
                         <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('spec_row_<?= $count ?>_<?= $speccount ?>')">
-                            <img src="<?php echo $this->getViewFileUrl('images/trash.png'); ?>" /></a>
+                           </a>
                         </div>
                             <?php endif ?>
                         <?php $speccount++ ?>
@@ -95,10 +93,15 @@ $count = 0;
             collapsible: true,
         }).sortable({ handle: '.draggable-handle' });
         $q('.spec_td').sortable({
+            connectWith: "div.specs_row",
             handle: '.draggable-handle2',
             placeholder: "ui-state-highlight myHover"
         }).disableSelection();
     });
+
+    function reinit()
+    {
+    }
 
     function updateHeader(s, i)
     {
@@ -114,7 +117,7 @@ $count = 0;
             '<div style="display:inline-block" class="draggable-handle"></div>' +
             '<div id="h_text_'+count+'" class="header_txt">Header</div>' +
         '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'header_div_'+count+'\')">' +
-        '<img src="http://gradus.dev/pub/static/version1482359685/adminhtml/Magento/backend/en_US/Gradus_TechSpecs/images/trash.png" /></a>' +
+       '</a>' +
         '<table id="header_table_'+count+'">'+
             '<tr><td>'+
         '<label for="header_text_'+count+'">Header Text</label>'+
@@ -129,30 +132,13 @@ $count = 0;
         '<label for="spec_desc_0">Spec Description</label>'+
         '<textarea data-form-part="product_form" name="techspec['+count+'][header][0][desc]" id="spec_desc_0" value=""/>'+
         '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'spec_row_'+count+'_0\')">' +
-        '<img src="http://gradus.dev/pub/static/version1482359685/adminhtml/Magento/backend/en_US/Gradus_TechSpecs/images/trash.png" /></a>'+
+       '</a>'+
         '</div>'+
         '</td></tr></table>'+
         '<button onclick="addSpec(\'header_table_'+count+'\')">Add Spec</button>'+
             '</div>';
         $q('#headers_container').append(template);
-        $q('#headers_container').sortable("destroy");
-        $q('.spec_td').sortable("destroy");
-        $q('#headers_container').accordion("destroy");
-
-        $q('#headers_container').accordion({
-            header: "> div > h3",
-            autoHeight: false,
-            collapsible: true,
-        }).sortable({ handle: '.draggable-handle' });
-        $q('.spec_td').sortable({
-            handle: '.draggable-handle2',
-            placeholder: "ui-state-highlight myHover"
-        }).disableSelection();
-
-        $q('#headers_container').sortable("refresh");
-        $q('.spec_td').sortable("refresh");
-        $q('#headers_container').accordion("refresh");
-
+        reinit();
     }
 
     function addSpec(appendTo)
@@ -167,42 +153,16 @@ $count = 0;
             '<input data-form-part="product_form" name="techspec['+count+'][header]['+counts+'][name]" id="spec_name_0" value="">'+
             '<label for="spec_desc_"+count>Spec Description</label>'+
             '<textarea data-form-part="product_form" name="techspec['+count+'][header]['+counts+'][desc]" id="spec_desc_0" value=""/>'+
-            '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'spec_row_'+count+'_0\')">' +
-            '<img src="http://gradus.dev/pub/static/version1482359685/adminhtml/Magento/backend/en_US/Gradus_TechSpecs/images/trash.png" /></a>'+
+            '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'spec_row_'+count+'_'+counts+'\')">' +
+         '</a>'+
             '</div>'+
             '</td></tr>';
         $q('#'+appendTo).append(template);
-
-        $q('.spec_td').sortable("destroy");
-        $q('.spec_td').sortable({
-            handle: '.draggable-handle2',
-            placeholder: "ui-state-highlight myHover"
-        }).disableSelection();
-
-        $q('#headers_container').sortable("refresh");
-        $q('.spec_td').sortable("refresh");
-        $q('#headers_container').accordion("refresh");
+        reinit();
     }
 
     function deleteHeader(id)
     {
         $q('#'+id).remove();
-        $q('#headers_container').sortable("destroy");
-        $q('.spec_td').sortable("destroy");
-        $q('#headers_container').accordion("destroy");
-
-        $q('#headers_container').accordion({
-            header: "> div > h3",
-            autoHeight: false,
-            collapsible: true,
-        }).sortable({ handle: '.draggable-handle' });
-        $q('.spec_td').sortable({
-            handle: '.draggable-handle2',
-            placeholder: "ui-state-highlight myHover"
-        }).disableSelection();
-
-        $q('#headers_container').sortable("refresh");
-        $q('.spec_td').sortable("refresh");
-        $q('#headers_container').accordion("refresh");
     }
 </script>
