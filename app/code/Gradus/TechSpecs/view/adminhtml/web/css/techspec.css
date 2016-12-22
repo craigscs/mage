@@ -24,6 +24,10 @@
 .ui-state-highlight {
     background: #cc0000;
 }
+.specs_row {
+    border-bottom:1px solid;
+    margin-bottom:10px;
+}
 .specs_row label {
     padding: 0px 10px;
 }
@@ -35,6 +39,7 @@
     width:40%;
     height:80px;
     padding: 3px;
+    vertical-align: top;
 }
 .header_div table {
     width: 100%;

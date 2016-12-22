@@ -91,10 +91,16 @@ $count = 0;
             header: "> div > h3",
             autoHeight: false,
             collapsible: true,
-        }).sortable({ handle: '.draggable-handle' });
+        }).sortable({ handle:
+            '.draggable-handle',
+            revert: 300,
+            tolerance: "intersect",
+        });
         $q('.spec_td').sortable({
             connectWith: "div.specs_row",
+            revert: 300,
             handle: '.draggable-handle2',
+            tolerance: "intersect",
             placeholder: "ui-state-highlight myHover"
         }).disableSelection();
     });
