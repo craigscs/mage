@@ -68,7 +68,7 @@ $count = 0;
                             <textarea data-form-part="product_form" name="techspec[<?= $count?>][header][<?= $speccount ?>][desc] id="spec_desc_<?= $speccount ?>"
                         value="<?= $spec['desc'] ?>"><?= $spec{'desc'} ?></textarea>
                         <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('spec_row_<?= $count ?>_<?= $speccount ?>')">
-                            <img src="http://gradus.dev/pub/static/version1482359685/adminhtml/Magento/backend/en_US/Gradus_TechSpecs/images/trash.png" /></a>
+                            <img src="<?php echo $this->getViewFileUrl('images/trash.png'); ?>" /></a>
                         </div>
                             <?php endif ?>
                         <?php $speccount++ ?>
