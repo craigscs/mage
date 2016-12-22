@@ -108,7 +108,6 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
                 }
 
                 $originalSku = $product->getSku();
-                $product->setData('tech_specs', $this->tss);
                 $product->save();
 
                 $this->handleImageRemoveError($data, $product->getId());
