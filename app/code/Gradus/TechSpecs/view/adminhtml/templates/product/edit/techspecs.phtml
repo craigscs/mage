@@ -43,7 +43,7 @@ $count = 0;
             <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('header_div_<?= $count ?>')"></a>
         </h3>
         <div>
-        <table id="header_table_<?= $count ?>">
+        <table class="tech_spec_table" id="header_table_<?= $count ?>">
             <tr>
                 <td>
                     <label for="header_text_<?= $count ?>">Header Text</label>
@@ -87,6 +87,9 @@ $count = 0;
     var $q = jQuery.noConflict();
 
     $q( document ).ready(function() {
+        console.log( $q("input[name*='product[tech_specs']").val() );
+        $q('[name="product[tech_specs]"]').prev().prev().hide();
+
         $q('#headers_container').accordion({
             header: "> div > h3",
             autoHeight: false,
@@ -123,7 +126,7 @@ $count = 0;
             '<div class="draggable-handle"></div>'+
             '<div id="h_text_'+count+'" class="header_txt">Header</div>'+
             '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'header_div_'+count+'\')"></a>'+
-            '</h3><div><table id="header_table_'+count+'">'+
+            '</h3><div><table class="tech_spec_table" id="header_table_'+count+'">'+
             '<tr><td><label for="header_text_'+count+'">Header Text</label>'+
             '<input onkeyup="updateHeader(this.value, \'h_text_'+count+'\')" id="header_title_'+count+'"' +
             'data-form-part="product_form" name="techspec['+count+'][header][header_name]"'+

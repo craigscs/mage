@@ -18,6 +18,9 @@
     background-image: url("../images/trash.png");
     background-size: 20px 20px;
 }
+.tech_spec_table {
+    max-width:1200px;
+}
 .delete_icon img {
     cursor: hand;
 }
@@ -27,6 +30,7 @@
 .specs_row {
     border-bottom:1px solid;
     margin-bottom:10px;
+    margin-left:35px;
 }
 .specs_row label {
     padding: 0px 10px;
