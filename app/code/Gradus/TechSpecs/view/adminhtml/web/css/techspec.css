@@ -34,12 +34,14 @@
 .specs_row input {
     width: 25%;
     padding: 3px;
+    margin-bottom:5px;
 }
 .specs_row textarea {
     width:40%;
     height:80px;
     padding: 3px;
     vertical-align: top;
+    margin-bottom:5px;
 }
 .header_div table {
     width: 100%;
