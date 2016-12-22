@@ -141,7 +141,11 @@ $count = 0;
             '</a></div></td> </tr> </table><button onclick="addSpec(\'header_table_'+count+'\')">Add Spec</button>'+
             '</div>';
 
-        $q('#headers_container').append(template);
+        $q('#headers_container').append(template).accordion("destroy").accordion({
+            header: "> div > h3",
+            autoHeight: false,
+            collapsible: true,
+        }).disableSelection();;
 
         $q('.spec_td').sortable({
             connectWith: "div.specs_row",
@@ -150,13 +154,6 @@ $count = 0;
             tolerance: "intersect",
             placeholder: "ui-state-highlight myHover"
         }).disableSelection();
-        $q('#headers_container').accordion({
-            header: "> div > h3",
-            autoHeight: false,
-            collapsible: true,
-        }).disableSelection();
-
-        $q('#headers_container').accordion('refresh');
         $q('.spec_td').sortable('refresh');
     }
 
