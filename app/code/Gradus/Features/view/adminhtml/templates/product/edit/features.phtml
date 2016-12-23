@@ -35,7 +35,7 @@ $count = 0;
     {
         var counts = $q('#features_container input').length;
         $q('#features_container').append
-        ('<div id="features_'+counts+'"><div class="draggable-handle"></div>' +
+        ('<div class="specs_row" id="features_'+counts+'"><div class="draggable-handle"></div>' +
             '<label for="feat_n_'+counts+'">Label '+counts+'</label>'+
             '<input id="feat_n_'+counts+'" style="width:15%; margin-right:5px;" data-form-part="product_form" value="" name="features['+counts+'][name]" />'+
             '<label for="feat_d_'+counts+'">Feature '+counts+'</label>'+
