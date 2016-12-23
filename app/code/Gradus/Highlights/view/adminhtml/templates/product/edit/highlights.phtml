@@ -1,0 +1,38 @@
+<?php
+$tech = $this->getProduct()->getData('highlights');
+$info = json_decode($tech, true);
+$count = 0;
+?>
+<div id="highlight_container" style="width:400px;">
+    <?php foreach ($info as $i) : ?>
+        <div id="highlight_<?= $count ?>">
+            <div class="draggable-handle"></div><input data-form-part="product_form" value="<?= $i ?>" name="highlights[<?= $count ?>]" />
+        <a class="delete_icon" src="javascript:void(0)" onclick="deleteLine('highlight_<?= $count ?>')"></a>
+        </div>
+        <?php $count++ ?>
+    <?php endforeach ?>
+</div>
+<button onclick="addHighlight()">Add Highlight</button>
+
+<script>
+    $q( document ).ready(function() {
+        $q('#highlight_container').sortable({
+            handle: '.draggable-handle',
+            revert: 300,
+            placeholder: "ui-state-highlight myHover",
+            tolerance: "intersect",
+        }).disableSelection();
+    });
+    function addHighlight()
+    {
+        var counts = $q('#highlight_container input').length + 1;
+        $q('#highlight_container').append
+        ('<div id="highlight_'+counts+'"><div class="draggable-handle"></div><input data-form-part=\'product_form\' name=\'highlights["'+counts+'"]\' />' +
+            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteLine(highlight_"+counts+")\"></a><br/></div>");
+    }
+
+    function deleteLine(h)
+    {
+        $q('#'+h).remove();
+    }
+</script>

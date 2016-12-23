@@ -1,28 +1,19 @@
 <?php
 
-namespace Gradus\TechSpecs\Controller\Adminhtml\Product;
+namespace Gradus\Highlights\Controller\Adminhtml\Product;
 
 class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
 {
-    protected $tss;
-    protected $highlights;
+    protected $highlight;
     private $storeManager;
     public function execute()
     {
-        if (isset($_POST['techspec'])) {
-            $ts = $_POST['techspec'];
-            $tss = json_encode($ts);
-            $_POST['product']['tech_specs'] = $tss;
-            $this->tss = $tss;
-            $this->getRequest()->setParams($_POST);
-        } else {
-            $this->tss = '';
-        }
-
         if (isset($_POST['highlights'])) {
-            $h = $_POST['highlights'];
-            $hs = json_encode($h);
-            $this->highlight = $hs;
+            $ts = $_POST['highlights'];
+            $tss = json_encode($ts);
+            $_POST['product']['highlights'] = $tss;
+            $this->highlight = $tss;
+            $this->getRequest()->setParams($_POST);
         } else {
             $this->highlight = '';
         }
@@ -48,7 +39,6 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
                 }
 
                 $originalSku = $product->getSku();
-                $product->setData('tech_specs', $this->tss);
                 $product->setData('highlights', $this->highlight);
                 $product->save();
 
