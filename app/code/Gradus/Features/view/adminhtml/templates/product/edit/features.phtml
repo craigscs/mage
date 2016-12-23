@@ -4,9 +4,10 @@ $info = json_decode($tech, true);
 //$info = [];
 $count = 0;
 ?>
-<div style="width: 700px; margin:auto;" id="features_container">
+<div style="width: 900px; margin:auto;" id="features_container">
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
+            <?php if (isset($i['name']) && isset($i['desc'])) : ?>
         <div class="specs_row" id="features_<?= $count ?>">
             <div class="draggable-handle"></div>
             <label for="feat_n_<?= $count ?>">Label <?= $count ?></label>
@@ -16,6 +17,7 @@ $count = 0;
         <a class="delete_icon" src="javascript:void(0)" onclick="deleteFeature('features_<?= $count ?>')"></a>
         </div>
         <?php $count++ ?>
+            <?php endif ?>
     <?php endforeach ?>
     <?php endif ?>
 </div>

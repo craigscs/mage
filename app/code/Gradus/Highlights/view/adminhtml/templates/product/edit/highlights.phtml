@@ -3,9 +3,10 @@ $tech = $this->getProduct()->getData('highlights');
 $info = json_decode($tech, true);
 $count = 0;
 ?>
-<div id="highlight_container" style="width:700px; margin:auto;">
+<div id="highlight_container" style="width:900px; margin:auto;">
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
+            <?php if (!is_null($i)) : ?>
         <div class="specs_row" id="highlight_<?= $count ?>">
             <div class="draggable-handle"></div>
             <label for="highlight_<?= $count ?>">Highlight <?= $count ?></label>
@@ -13,6 +14,7 @@ $count = 0;
         <a class="delete_icon" src="javascript:void(0)" onclick="deleteHighlight('highlight_<?= $count ?>')"></a>
         </div>
         <?php $count++ ?>
+            <?php endif ?>
     <?php endforeach ?>
     <?php endif ?>
 </div>
@@ -34,7 +36,7 @@ $count = 0;
         $q('#highlight_container').append
         ('<div class="specs_row" id="highlight_'+counts+'"><div class="draggable-handle"></div><label for=-"highlight_'+counts+'">Hightight '+counts+'</label>' +
             '<input id="highlight_'+counts+'" style="width:90%;" data-form-part=\'product_form\' name=\'highlights["'+counts+'"]\' />' +
-            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteHighlight(highlight_"+counts+")\"></a><br/></div>");
+            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteHighlight('highlight_"+counts+"')\"></a><br/></div>");
     }
 
     function deleteHighlight(h)
