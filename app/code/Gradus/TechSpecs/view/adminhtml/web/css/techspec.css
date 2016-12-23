@@ -24,6 +24,9 @@
 .delete_icon img {
     cursor: hand;
 }
+.header_row {
+    margin-bottom:10px;
+}
 .ui-state-highlight {
     background: #cc0000;
 }

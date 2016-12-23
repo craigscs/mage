@@ -44,7 +44,7 @@ $count = 0;
         </h3>
         <div>
         <table class="tech_spec_table" id="header_table_<?= $count ?>">
-            <tr>
+            <tr class="header_row">
                 <td>
                     <label for="header_text_<?= $count ?>">Header Text</label>
                     <input onkeyup="updateHeader(this.value, 'h_text_<?= $count ?>')" id="header_title_<?= $count ?>"
@@ -52,6 +52,7 @@ $count = 0;
                            id="header_text_<?= $count ?>" value="<?= $header['header']['header_name'] ?>"/>
                 </td>
             </tr>
+            <tr style="height:10px;"></tr>
             <tr>
                 <td class="spec_td">
                     <?php foreach ($header as $specs) : ?>
@@ -127,7 +128,7 @@ $count = 0;
             '<div id="h_text_'+count+'" class="header_txt">Header</div>'+
             '<a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader(\'header_div_'+count+'\')"></a>'+
             '</h3><div><table class="tech_spec_table" id="header_table_'+count+'">'+
-            '<tr><td><label for="header_text_'+count+'">Header Text</label>'+
+            '<tr class="header_row"><td><label for="header_text_'+count+'">Header Text</label>'+
             '<input onkeyup="updateHeader(this.value, \'h_text_'+count+'\')" id="header_title_'+count+'"' +
             'data-form-part="product_form" name="techspec['+count+'][header][header_name]"'+
             'id="header_text_'+count+'" value=""/>'+
