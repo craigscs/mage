@@ -4,6 +4,7 @@ $info = json_decode($tech, true);
 $count = 0;
 ?>
 <div id="highlight_container" style="width:400px;">
+    <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
         <div id="highlight_<?= $count ?>">
             <div class="draggable-handle"></div><input data-form-part="product_form" value="<?= $i ?>" name="highlights[<?= $count ?>]" />
@@ -11,6 +12,7 @@ $count = 0;
         </div>
         <?php $count++ ?>
     <?php endforeach ?>
+    <?php endif ?>
 </div>
 <button onclick="addHighlight()">Add Highlight</button>
 
