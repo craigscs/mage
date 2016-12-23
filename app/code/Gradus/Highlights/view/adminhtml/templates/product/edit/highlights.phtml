@@ -17,6 +17,7 @@ $count = 0;
 <button onclick="addHighlight()">Add Highlight</button>
 
 <script>
+    var $q = jQuery.noConflict();
     $q( document ).ready(function() {
         $q('#highlight_container').sortable({
             handle: '.draggable-handle',
