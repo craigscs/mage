@@ -6,8 +6,8 @@ $count = 0;
 <div id="highlight_container" style="width:400px;">
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
-        <div id="highlight_<?= $count ?>">
-            <div class="draggable-handle"></div><input data-form-part="product_form" value="<?= $i ?>" name="highlights[<?= $count ?>]" />
+        <div class="specs_row" id="highlight_<?= $count ?>">
+            <div class="draggable-handle"></div><input style="width:300px;" data-form-part="product_form" value="<?= $i ?>" name="highlights[<?= $count ?>]" />
         <a class="delete_icon" src="javascript:void(0)" onclick="deleteLine('highlight_<?= $count ?>')"></a>
         </div>
         <?php $count++ ?>
