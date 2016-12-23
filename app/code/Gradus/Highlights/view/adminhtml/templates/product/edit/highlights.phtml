@@ -3,12 +3,14 @@ $tech = $this->getProduct()->getData('highlights');
 $info = json_decode($tech, true);
 $count = 0;
 ?>
-<div id="highlight_container" style="width:400px;">
+<div id="highlight_container" style="width:700px; margin:auto;">
     <?php if (count($info) > 0) : ?>
     <?php foreach ($info as $i) : ?>
         <div class="specs_row" id="highlight_<?= $count ?>">
-            <div class="draggable-handle"></div><input style="width:300px;" data-form-part="product_form" value="<?= $i ?>" name="highlights[<?= $count ?>]" />
-        <a class="delete_icon" src="javascript:void(0)" onclick="deleteLine('highlight_<?= $count ?>')"></a>
+            <div class="draggable-handle"></div>
+            <label for="highlight_<?= $count ?>">Highlight <?= $count ?></label>
+            <input id="hightlight_<?= $count ?>" style="width:90%;" data-form-part="product_form" value="<?= $i ?>" name="highlights[<?= $count ?>]" />
+        <a class="delete_icon" src="javascript:void(0)" onclick="deleteHighlight('highlight_<?= $count ?>')"></a>
         </div>
         <?php $count++ ?>
     <?php endforeach ?>
@@ -28,13 +30,14 @@ $count = 0;
     });
     function addHighlight()
     {
-        var counts = $q('#highlight_container input').length + 1;
+        var counts = $q('#highlight_container input').length;
         $q('#highlight_container').append
-        ('<div id="highlight_'+counts+'"><div class="draggable-handle"></div><input data-form-part=\'product_form\' name=\'highlights["'+counts+'"]\' />' +
-            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteLine(highlight_"+counts+")\"></a><br/></div>");
+        ('<div class="specs_row" id="highlight_'+counts+'"><div class="draggable-handle"></div><label for=-"highlight_'+counts+'">Hightight '+counts+'</label>' +
+            '<input id="highlight_'+counts+'" style="width:90%;" data-form-part=\'product_form\' name=\'highlights["'+counts+'"]\' />' +
+            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteHighlight(highlight_"+counts+")\"></a><br/></div>");
     }
 
-    function deleteLine(h)
+    function deleteHighlight(h)
     {
         $q('#'+h).remove();
     }

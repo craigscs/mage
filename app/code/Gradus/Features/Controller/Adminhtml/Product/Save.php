@@ -1,25 +1,22 @@
 <?php
 
-namespace Gradus\Highlights\Controller\Adminhtml\Product;
+namespace Gradus\Features\Controller\Adminhtml\Product;
 
 class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
 {
-    protected $highlight;
+    protected $features;
     private $storeManager;
     public function execute()
     {
-        if (isset($_POST['highlights'])) {
-            $ts = $_POST['highlights'];
+        if (isset($_POST['features'])) {
+            $ts = $_POST['features'];
             $tss = json_encode($ts);
-            $_POST['product']['highlights'] = $tss;
-            $this->highlight = $tss;
+            $_POST['product']['features'] = $tss;
+            $this->features = $tss;
             $this->getRequest()->setParams($_POST);
         } else {
-            $this->highlight = '';
+            $this->features = '';
         }
-
-        var_dump($this->highlight);
-
         $storeId = $this->getRequest()->getParam('store', 0);
         $store = $this->getStoreManager()->getStore($storeId);
         $this->getStoreManager()->setCurrentStore($store->getCode());
@@ -42,7 +39,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
                 }
 
                 $originalSku = $product->getSku();
-                $product->setData('highlights', $this->highlight);
+                $product->setData('features', $this->features);
                 $product->save();
 
                 $this->handleImageRemoveError($data, $product->getId());
