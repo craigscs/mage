@@ -1,7 +1,7 @@
 <?php
 $tech = $this->getProduct()->getData('features');
 $info = json_decode($tech, true);
-$info = [];
+//$info = [];
 $count = 0;
 ?>
 <div style="width: 700px; margin:auto;" id="features_container">
@@ -9,11 +9,10 @@ $count = 0;
     <?php foreach ($info as $i) : ?>
         <div class="specs_row" id="features_<?= $count ?>">
             <div class="draggable-handle"></div>
-            <?php var_dump($i); die(); ?>
             <label for="feat_n_<?= $count ?>">Label <?= $count ?></label>
-            <input style="width:15%; margin-left:5px;" id="feat_n_<?= $count ?>" data-form-part="product_form" value="<?= $i['name'] ?>" name="features[<?= $count ?>]['name']" />
+            <input style="width:15%; margin-left:5px;" id="feat_n_<?= $count ?>" data-form-part="product_form" value="<?= $i['name'] ?>" name="features[<?= $count ?>][name]" />
             <label for="feat_d_<?= $count ?>">Feature <?= $count ?></label>
-            <textarea id="feat_d_<?= $count ?>" style="width:60%;" data-form-part="product_form" name="features[<?= $count?>['desc']"><?= $i['desc'] ?></textarea>
+            <textarea id="feat_d_<?= $count ?>" style="width:50%;" data-form-part="product_form" name="features[<?= $count?>[\"desc\"]"><?= $i["desc"] ?></textarea>
         <a class="delete_icon" src="javascript:void(0)" onclick="deleteFeature('features_<?= $count ?>')"></a>
         </div>
         <?php $count++ ?>
@@ -38,9 +37,9 @@ $count = 0;
         $q('#features_container').append
         ('<div id="features_'+counts+'"><div class="draggable-handle"></div>' +
             '<label for="feat_n_'+counts+'">Label '+counts+'</label>'+
-            '<input id="feat_n_'+counts+'" style="width:15%; margin-right:5px;" data-form-part="product_form" value="" name="features['+counts+'][\'name\']" />'+
+            '<input id="feat_n_'+counts+'" style="width:15%; margin-right:5px;" data-form-part="product_form" value="" name="features['+counts+'][name]" />'+
             '<label for="feat_d_'+counts+'">Feature '+counts+'</label>'+
-            '<textarea id="feat_d_'+counts+'" style="width:60%; vertical-align: top;" data-form-part="product_form" name="features['+counts+'][\'desc\']"></textarea>'+
+            '<textarea id="feat_d_'+counts+'" style="width:50%; vertical-align: top;" data-form-part="product_form" name="features['+counts+'][desc]"></textarea>'+
             "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteFeature(features_"+counts+")\"></a>" +
             "<br/></div>");
     }
