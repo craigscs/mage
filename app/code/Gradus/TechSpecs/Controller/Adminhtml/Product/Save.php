@@ -1,91 +1,22 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
-namespace Magento\Catalog\Controller\Adminhtml\Product;
 
-use Magento\Backend\App\Action;
-use Magento\Catalog\Controller\Adminhtml\Product;
-use Magento\Store\Model\StoreManagerInterface;
-use Magento\Framework\App\Request\DataPersistorInterface;
+namespace Gradus\TechSpecs\Controller\Adminhtml\Product;
 
-/**
- * Class Save
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
-class Save extends \Magento\Catalog\Controller\Adminhtml\Product
+class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
 {
-    /**
-     * @var Initialization\Helper
-     */
-    protected $initializationHelper;
-
-    /**
-     * @var \Magento\Catalog\Model\Product\Copier
-     */
-    protected $productCopier;
-
-    /**
-     * @var \Magento\Catalog\Model\Product\TypeTransitionManager
-     */
-    protected $productTypeManager;
-
-    /**
-     * @var \Magento\Catalog\Api\CategoryLinkManagementInterface
-     */
-    protected $categoryLinkManagement;
-
-    /**
-     * @var \Magento\Catalog\Api\ProductRepositoryInterface
-     */
-    protected $productRepository;
-
-    /**
-     * @var DataPersistorInterface
-     */
-    protected $dataPersistor;
-
-    /**
-     * @var StoreManagerInterface
-     */
+    protected $tss;
     private $storeManager;
-
-    /**
-     * Save constructor.
-     *
-     * @param Action\Context $context
-     * @param Builder $productBuilder
-     * @param Initialization\Helper $initializationHelper
-     * @param \Magento\Catalog\Model\Product\Copier $productCopier
-     * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
-     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
-     */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        Product\Builder $productBuilder,
-        Initialization\Helper $initializationHelper,
-        \Magento\Catalog\Model\Product\Copier $productCopier,
-        \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager,
-        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
-    ) {
-        $this->initializationHelper = $initializationHelper;
-        $this->productCopier = $productCopier;
-        $this->productTypeManager = $productTypeManager;
-        $this->productRepository = $productRepository;
-        parent::__construct($context, $productBuilder);
-    }
-
-    /**
-     * Save product action
-     *
-     * @return \Magento\Backend\Model\View\Result\Redirect
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     */
     public function execute()
     {
+        if (isset($_POST['techspec'])) {
+            $ts = $_POST['techspec'];
+            $tss = json_encode($ts);
+            $_POST['product']['tech_specs'] = $tss;
+            $this->tss = $tss;
+            $this->getRequest()->setParams($_POST);
+        } else {
+            $this->tss = '';
+        }
         $storeId = $this->getRequest()->getParam('store', 0);
         $store = $this->getStoreManager()->getStore($storeId);
         $this->getStoreManager()->setCurrentStore($store->getCode());
@@ -108,6 +39,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
                 }
 
                 $originalSku = $product->getSku();
+                $product->setData('tech_specs', $this->tss);
                 $product->save();
 
                 $this->handleImageRemoveError($data, $product->getId());
@@ -182,12 +114,6 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
         return $resultRedirect;
     }
 
-    /**
-     * Unserialize product data for configurable products
-     *
-     * @param array $postData
-     * @return void
-     */
     private function unserializeProductData($postData)
     {
         if (isset($postData["configurable-matrix-serialized"])) {
@@ -206,14 +132,15 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
         }
     }
 
-    /**
-     * Notify customer when image was not deleted in specific case.
-     * TODO: temporary workaround must be eliminated in MAGETWO-45306
-     *
-     * @param array $postData
-     * @param int $productId
-     * @return void
-     */
+    private function getStoreManager()
+    {
+        if (null === $this->storeManager) {
+            $this->storeManager = \Magento\Framework\App\ObjectManager::getInstance()
+                ->get(\Magento\Store\Model\StoreManagerInterface::class);
+        }
+        return $this->storeManager;
+    }
+
     private function handleImageRemoveError($postData, $productId)
     {
         if (isset($postData['product']['media_gallery']['images'])) {
@@ -235,39 +162,6 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
         }
     }
 
-    /**
-     * Do copying data to stores
-     *
-     * @param array $data
-     * @param int $productId
-     * @return void
-     */
-    protected function copyToStores($data, $productId)
-    {
-        if (!empty($data['product']['copy_to_stores'])) {
-            foreach ($data['product']['copy_to_stores'] as $websiteId => $group) {
-                if (isset($data['product']['website_ids'][$websiteId])
-                    && (bool)$data['product']['website_ids'][$websiteId]) {
-                    foreach ($group as $store) {
-                        $copyFrom = (isset($store['copy_from'])) ? $store['copy_from'] : 0;
-                        $copyTo = (isset($store['copy_to'])) ? $store['copy_to'] : 0;
-                        if ($copyTo) {
-                            $this->_objectManager->create(\Magento\Catalog\Model\Product::class)
-                                ->setStoreId($copyFrom)
-                                ->load($productId)
-                                ->setStoreId($copyTo)
-                                ->setCopyFromView(true)
-                                ->save();
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * @return \Magento\Catalog\Api\CategoryLinkManagementInterface
-     */
     private function getCategoryLinkManagement()
     {
         if (null === $this->categoryLinkManagement) {
@@ -277,31 +171,4 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
         return $this->categoryLinkManagement;
     }
 
-    /**
-     * @return StoreManagerInterface
-     * @deprecated
-     */
-    private function getStoreManager()
-    {
-        if (null === $this->storeManager) {
-            $this->storeManager = \Magento\Framework\App\ObjectManager::getInstance()
-                ->get(\Magento\Store\Model\StoreManagerInterface::class);
-        }
-        return $this->storeManager;
-    }
-
-    /**
-     * Retrieve data persistor
-     *
-     * @return DataPersistorInterface|mixed
-     * @deprecated
-     */
-    protected function getDataPersistor()
-    {
-        if (null === $this->dataPersistor) {
-            $this->dataPersistor = $this->_objectManager->get(DataPersistorInterface::class);
-        }
-
-        return $this->dataPersistor;
-    }
 }
