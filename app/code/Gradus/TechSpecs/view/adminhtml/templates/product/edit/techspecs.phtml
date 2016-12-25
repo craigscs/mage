@@ -1,19 +1,6 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"
       xmlns="http://www.w3.org/1999/html">
 <?php
-//$info = array();
-//$info[0]["header"]['header_name'] = 'System';
-//$info[0]["header"][1]["name"] = "Test Name";
-//$info[0]["header"][1]["desc"] = "Test Des";
-//$info[0]["header"][2]["name"] = "Test Name 1";
-//$info[0]["header"][2]["desc"] = "Test Desc 1";
-//
-//$info[1]["header"]['header_name'] = 'Information';
-//$info[1]["header"][1]["name"] = "Test Name";
-//$info[1]["header"][1]["desc"] = "Test Des";
-//$info[1]["header"][2]["name"] = "Test Name 1";
-//$info[1]["header"][2]["desc"] = "Test Desc 1";
-
 $tech = $this->getProduct()->getData('tech_specs');
 $info = json_decode($tech, true);
 $count = 0;

@@ -32,8 +32,7 @@
 }
 .specs_row {
     border-bottom:1px solid;
-    padding-bottom:13px;
-    padding-top:13px;
+    margin-bottom:10px;
     margin-left:35px;
 }
 .specs_row label {

@@ -1,40 +1,24 @@
 <?php
 
-namespace Gradus\TechSpecs\Controller\Adminhtml\Product;
+namespace Gradus\Highlights\Controller\Adminhtml\Product;
 
 class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
 {
-    protected $tss;
-    protected $highlights;
-    protected $features;
+    protected $highlight;
     private $storeManager;
     public function execute()
     {
-        if (isset($_POST['techspec'])) {
-            $ts = $_POST['techspec'];
-            $tss = json_encode($ts);
-            $_POST['product']['tech_specs'] = $tss;
-            $this->tss = $tss;
-            $this->getRequest()->setParams($_POST);
-        } else {
-            $this->tss = '';
-        }
-
         if (isset($_POST['highlights'])) {
-            $h = $_POST['highlights'];
-            $hs = json_encode($h);
-            $this->highlight = $hs;
+            $ts = $_POST['highlights'];
+            $tss = json_encode($ts);
+            $_POST['product']['highlights'] = $tss;
+            $this->highlight = $tss;
+            $this->getRequest()->setParams($_POST);
         } else {
             $this->highlight = '';
         }
 
-            if (isset($_POST['features'])) {
-                $h = $_POST['features'];
-                $hs = json_encode($h);
-                $this->features = $hs;
-            } else {
-                $this->features = '';
-            }
+        var_dump($this->highlight);
 
         $storeId = $this->getRequest()->getParam('store', 0);
         $store = $this->getStoreManager()->getStore($storeId);
@@ -58,9 +42,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
                 }
 
                 $originalSku = $product->getSku();
-                $product->setData('tech_specs', $this->tss);
                 $product->setData('highlights', $this->highlight);
-                $product->setData('features', $this->features);
                 $product->save();
 
                 $this->handleImageRemoveError($data, $product->getId());
