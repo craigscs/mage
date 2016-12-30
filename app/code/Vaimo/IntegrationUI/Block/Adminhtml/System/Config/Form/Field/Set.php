@@ -43,20 +43,7 @@ class Set extends \Magento\Framework\View\Element\Html\Select
      */
     public function _toHtml()
     {
-//        if (!$this->getOptions()) {
-//            $attributeSetCollection = new \Magento\Catalog\Model\Product\AttributeSet\Optionn();
-//            var_dump($attributeSetCollection); die();
-//            $options = array();
-//            foreach ($attributeSetCollection as $id=>$attributeSet) {
-//                if ($attributeSet->getEntityTypeId() == 4) {
-//                    $options[$id] = $attributeSet->getAttributeSetName();
-//                }
-//            }
-//
-//            foreach ($options as $label => $values) {
-//                $this->addOption($label, $values);
-//            }
-//        }
+        $this->addOption("0", "Default");
         return parent::_toHtml();
     }
 }

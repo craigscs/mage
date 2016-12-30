@@ -24,7 +24,12 @@
  * @author      Raivo Balins
  */
 
-class Vaimo_IntegrationUI_Block_Adminhtml_System_Config_Form_Field_Status extends Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
+namespace Vaimo\IntegrationUI\Block\Adminhtml\System\Config\Form\Field;
+
+use Magento\Framework\DataObject;
+use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
+
+class Status extends AbstractFieldArray
 {
     protected $_codeRenderer;
 
@@ -36,8 +41,8 @@ class Vaimo_IntegrationUI_Block_Adminhtml_System_Config_Form_Field_Status extend
     protected function _getCodeRenderer()
     {
         if (!$this->_codeRenderer) {
-            $this->_codeRenderer = Mage::getModel('core/layout')->createBlock(
-                'integrationui/adminhtml_system_config_form_field_code', '',
+            $this->_codeRenderer = $this->getLayout()->createBlock(
+                'Vaimo\IntegrationUI\Block\Adminhtml\System\Config\Form\Field\Code', '',
                 array('is_render_to_js_template' => true)
             );
             $this->_codeRenderer->setExtraParams('style="width:100px"');
@@ -45,22 +50,18 @@ class Vaimo_IntegrationUI_Block_Adminhtml_System_Config_Form_Field_Status extend
         return $this->_codeRenderer;
     }
 
-    /**
-     * Prepare to render
-     */
-    public function __construct()
+    protected function _prepareToRender()
     {
         $this->addColumn('code', array(
-            'label' => Mage::helper('integrationui')->__('State'),
+            'label' => 'State',
             'renderer' => $this->_getCodeRenderer(),
         ));
         $this->addColumn('status', array(
-            'label' => Mage::helper('integrationui')->__('Status'),
+            'label' => 'Status',
             'style' => 'width:200px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('integrationui')->__('Add');
-        parent::__construct();
+        $this->_addButtonLabel = 'Add';
     }
 
     /**
@@ -68,7 +69,7 @@ class Vaimo_IntegrationUI_Block_Adminhtml_System_Config_Form_Field_Status extend
      *
      * @param Varien_Object
      */
-    protected function _prepareArrayRow(Varien_Object $row)
+    protected function _prepareArrayRow(DataObject $row)
     {
         $row->setData(
             'option_extra_attr_' . $this->_getCodeRenderer()->calcOptionHash($row->getData('code')),

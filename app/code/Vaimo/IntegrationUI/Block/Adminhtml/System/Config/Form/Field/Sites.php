@@ -9,16 +9,6 @@ class Sites extends AbstractFieldArray
     protected $_setRenderer;
 
     /**
-     * @var Countries
-     */
-    protected $countryRenderer = null;
-
-    /**
-     * @var CcTypes
-     */
-    protected $ccTypesRenderer = null;
-
-    /**
      * Returns renderer for country element
      *
      * @return Countries
@@ -61,8 +51,6 @@ class Sites extends AbstractFieldArray
      */
     protected function _prepareArrayRow(DataObject $row)
     {
-        $country = $row->getCountryId();
-        $options = [];
         $row->setData(
             'option_extra_attr_' . $this->_getSetRenderer()->calcOptionHash($row->getData('site')),
             'selected="selected"'

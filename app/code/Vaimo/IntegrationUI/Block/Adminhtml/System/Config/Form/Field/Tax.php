@@ -24,7 +24,9 @@
  * @author      Urmo Schmidt
  */
 
-class Vaimo_IntegrationUI_Block_Adminhtml_System_Config_Form_Field_Tax extends Mage_Core_Block_Html_Select
+namespace Vaimo\IntegrationUI\Block\Adminhtml\System\Config\Form\Field;
+
+class Tax extends \Magento\Framework\View\Element\Html\Select
 {
     public function setInputName($value)
     {
@@ -38,9 +40,9 @@ class Vaimo_IntegrationUI_Block_Adminhtml_System_Config_Form_Field_Tax extends M
      */
     public function _toHtml()
     {
-        if (!$this->getOptions()) {
-            $this->_options = Mage::getModel('tax/class_source_product')->getAllOptions(true);
-        }
+//        if (!$this->getOptions()) {
+//            $this->_options = Mage::getModel('tax/class_source_product')->getAllOptions(true);
+//        }
         return parent::_toHtml();
     }
 }

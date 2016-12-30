@@ -89,7 +89,6 @@ class CountryCreditCard extends AbstractFieldArray
      */
     protected function _prepareArrayRow(DataObject $row)
     {
-        var_dump("ASFASFASFASFAS");
         $country = $row->getCountryId();
         $options = [];
         if ($country) {

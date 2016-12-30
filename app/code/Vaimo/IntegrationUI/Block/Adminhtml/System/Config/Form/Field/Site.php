@@ -32,14 +32,10 @@ use Magento\Framework\View\Element\Context;
 class Site extends \Magento\Framework\View\Element\Html\Select
 {
     protected $sm;
-    public function __construct(Context $context, array $data = [])
-    {
-        parent::__construct($context, $data);
-    }
 
     public function setInputName($value)
     {
-        return $this->setName($value . '[]');;
+        return $this->setName($value);
     }
 
     /**

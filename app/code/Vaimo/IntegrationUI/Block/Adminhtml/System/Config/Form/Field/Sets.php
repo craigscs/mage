@@ -48,15 +48,6 @@ class Sets extends AbstractFieldArray
             $this->_setRenderer->setExtraParams('style="width:100px"');
         }
         return $this->_setRenderer;
-
-        if (!$this->_setRenderer) {
-            $this->_setRenderer = Mage::getModel('core/layout')->createBlock(
-                'integrationui/adminhtml_system_config_form_field_set', '',
-                array('is_render_to_js_template' => true)
-            );
-            $this->_setRenderer->setExtraParams('style="width:100px"');
-        }
-        return $this->_setRenderer;
     }
 
     protected function _prepareToRender()

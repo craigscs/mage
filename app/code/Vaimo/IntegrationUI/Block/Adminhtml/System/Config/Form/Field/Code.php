@@ -24,7 +24,9 @@
  * @author      Urmo Schmidt
  */
 
-class Vaimo_IntegrationUI_Block_Adminhtml_System_Config_Form_Field_Code extends Mage_Core_Block_Html_Select
+namespace Vaimo\IntegrationUI\Block\Adminhtml\System\Config\Form\Field;
+
+class Code extends \Magento\Framework\View\Element\Html\Select
 {
     public function setInputName($value)
     {

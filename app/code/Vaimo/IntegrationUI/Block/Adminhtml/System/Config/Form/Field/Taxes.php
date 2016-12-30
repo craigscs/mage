@@ -24,7 +24,12 @@
  * @author      Raivo Balins
  */
 
-class Vaimo_IntegrationUI_Block_Adminhtml_System_Config_Form_Field_Taxes extends Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
+namespace Vaimo\IntegrationUI\Block\Adminhtml\System\Config\Form\Field;
+
+use Magento\Framework\DataObject;
+use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
+
+class Taxes extends AbstractFieldArray
 {
     protected $_setRenderer;
 
@@ -36,8 +41,8 @@ class Vaimo_IntegrationUI_Block_Adminhtml_System_Config_Form_Field_Taxes extends
     protected function _getSetRenderer()
     {
         if (!$this->_setRenderer) {
-            $this->_setRenderer = Mage::getModel('core/layout')->createBlock(
-                'integrationui/adminhtml_system_config_form_field_tax', '',
+            $this->_setRenderer = $this->getLayout()->createBlock(
+                'Vaimo\IntegrationUI\Block\Adminhtml\System\Config\Form\Field\Tax', '',
                 array('is_render_to_js_template' => true)
             );
             $this->_setRenderer->setExtraParams('style="width:100px"');
@@ -45,22 +50,18 @@ class Vaimo_IntegrationUI_Block_Adminhtml_System_Config_Form_Field_Taxes extends
         return $this->_setRenderer;
     }
 
-    /**
-     * Prepare to render
-     */
-    public function __construct()
+    protected function _prepareToRender()
     {
         $this->addColumn('tax', array(
-            'label' => Mage::helper('integrationui')->__('Tax Class'),
+            'label' => 'Tax Class',
             'renderer' => $this->_getSetRenderer(),
         ));
         $this->addColumn('code', array(
-            'label' => Mage::helper('integrationui')->__('Code'),
+            'label' => 'Code',
             'style' => 'width:200px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('integrationui')->__('Add');
-        parent::__construct();
+        $this->_addButtonLabel = 'Add';
     }
 
     /**
@@ -68,7 +69,7 @@ class Vaimo_IntegrationUI_Block_Adminhtml_System_Config_Form_Field_Taxes extends
      *
      * @param Varien_Object
      */
-    protected function _prepareArrayRow(Varien_Object $row)
+    protected function _prepareArrayRow(DataObject $row)
     {
         $row->setData(
             'option_extra_attr_' . $this->_getSetRenderer()->calcOptionHash($row->getData('tax')),
