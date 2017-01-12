@@ -24,11 +24,19 @@
  * @author      Urmo Schmidt
  */
 
-namespace Vaimo\IntegrationUI\Block\Adminhtml\Form\Field;
+namespace Mageplaza\Helloworld\Block\Adminhtml\Form\Field;
 
-class Defaultvalue extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
+class Defaultvalues extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
     protected $_dbFieldRenderer;
+    protected $context;
+
+    public function __construct(\Magento\Backend\Block\Template\Context $om)
+    {
+        $this->context = $om;
+        return parent::__construct($om);
+    }
+
 
     /**
      * Retrieve dbfield column renderer
@@ -39,8 +47,8 @@ class Defaultvalue extends \Magento\Config\Block\System\Config\Form\Field\FieldA
     {
         if (!$this->_dbFieldRenderer) {
             $this->_dbFieldRenderer = $this->getLayout()->createBlock(
-                'integrationui/adminhtml_form_field_dbfield', '',
-                array('is_render_to_js_template' => true)
+                'Mageplaza\HelloWorld\Block\Adminhtml\Form\Field\Dbfield', '',
+                array($this->context, 'is_render_to_js_template' => true)
             );
             //            $this->_dbFieldRenderer->setClass('customer_group_select');
             $this->_dbFieldRenderer->setExtraParams('style="width:300px"');
@@ -54,15 +62,15 @@ class Defaultvalue extends \Magento\Config\Block\System\Config\Form\Field\FieldA
     protected function _prepareToRender()
     {
         $this->addColumn('db_field', array(
-            'label' => Mage::helper('integrationui')->__('Entity Attribute'),
+            'label' => __('Entity Attribute'),
             'renderer' => $this->_getDbFieldRenderer(),
         ));
         $this->addColumn('file_field', array(
-            'label' => Mage::helper('integrationui')->__('Value'),
+            'label' => __('Value'),
             'style' => 'width:200px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('cataloginventory')->__('Add Default Value');
+        $this->_addButtonLabel = __('Add Default Value');
     }
 
     /**

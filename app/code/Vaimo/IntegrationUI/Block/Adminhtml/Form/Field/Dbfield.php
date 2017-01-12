@@ -24,7 +24,7 @@
  * @author      Urmo Schmidt
  */
 
-namespace Mageplaza\HelloWorld\Block\Adminhtml\Form\Field;
+namespace Vaimo\IntegrationUI\Block\Adminhtml\Form\Field;
 
 class Dbfield extends \Magento\Framework\View\Element\Html\Select
 {
@@ -46,10 +46,10 @@ class Dbfield extends \Magento\Framework\View\Element\Html\Select
                 . " JOIN eav_entity_type ON (eav_attribute.entity_type_id = eav_entity_type.entity_type_id)"
                 . " ORDER BY eav_attribute.entity_type_id, eav_attribute.frontend_label";
 
-//            $query = Icommerce_Db::getRead()->query($sql);
+            $query = Icommerce_Db::getRead()->query($sql);
             $options = array('' => 'null');
 
-            foreach (array() as $row) {
+            foreach ($query as $row) {
                 if ($row['frontend_label']) {
                     $label = $row['frontend_label'];
                     $options[$row['entity_type_code']][$row['entity_type_code'] . '.' . $row['attribute_code']] = addslashes($label);

@@ -24,53 +24,44 @@
  * @author      Raivo Balins
  */
 
-namespace Mageplaza\HelloWorld\Block\Adminhtml\Form\Field;
+namespace Vaimo\IntegrationUI\Block\Adminhtml\System\Config\Form\Field;
 
-class Curl extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
+use Magento\Framework\DataObject;
+use Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray;
+
+class Sets extends AbstractFieldArray
 {
-    protected $_dbFieldRenderer;
-    protected $context;
-
-    public function __construct(\Magento\Backend\Block\Template\Context $om)
-    {
-        $this->context = $om;
-        return parent::__construct($om);
-    }
-
+    protected $_setRenderer;
 
     /**
      * Retrieve dbfield column renderer
      *
      * @return Vaimo_IntegrationUI_Block_Adminhtml_Form_Field_Dbfield
      */
-    protected function _getDbFieldRenderer()
+    protected function _getSetRenderer()
     {
-        if (!$this->_dbFieldRenderer) {
-            $this->_dbFieldRenderer = $this->getLayout()->createBlock(
-                'Mageplaza\Helloworld\Block\Adminhtml\Form\Field\Curlfield', '',
-                array('is_render_to_js_template' => true)
+        if (!$this->_setRenderer) {
+            $this->_setRenderer =  $this->getLayout()->createBlock(
+                'Vaimo\IntegrationUI\Block\Adminhtml\System\Config\Form\Field\Set', '',
+                ['data' => ['is_render_to_js_template' => true]]
             );
-            $this->_dbFieldRenderer->setExtraParams('style="width:300px"');
+            $this->_setRenderer->setExtraParams('style="width:100px"');
         }
-        return $this->_dbFieldRenderer;
+        return $this->_setRenderer;
     }
 
-    /**
-     * Prepare to render
-     */
     protected function _prepareToRender()
     {
-        $this->addColumn('db_field', array(
-            'label' => __('Option'),
-            //'renderer' => $this->_getDbFieldRenderer(),
-            'style' => 'width:200px',
+        $this->addColumn('set', array(
+            'label' => 'Attribute Set',
+            'renderer' => $this->_getSetRenderer(),
         ));
-        $this->addColumn('file_field', array(
-            'label' => __('Value'),
+        $this->addColumn('code', array(
+            'label' => 'Code',
             'style' => 'width:200px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = __('Add Option');
+        $this->_addButtonLabel = 'Add';
     }
 
     /**
@@ -78,10 +69,10 @@ class Curl extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\Abs
      *
      * @param Varien_Object
      */
-    protected function _prepareArrayRow(\Magento\Framework\DataObject $row)
+    protected function _prepareArrayRow(DataObject $row)
     {
         $row->setData(
-            'option_extra_attr_' . $this->_getDbFieldRenderer()->calcOptionHash($row->getData('db_field')),
+            'option_extra_attr_' . $this->_getSetRenderer()->calcOptionHash($row->getData('set')),
             'selected="selected"'
         );
     }

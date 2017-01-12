@@ -45,6 +45,9 @@ class Post extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
      */
     protected $_sampleMultiselectOptions;
 
+    protected $context;
+    protected $objectManager;
+
     /**
      * constructor
      * 
@@ -72,9 +75,24 @@ class Post extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         $this->_countryOptions           = $countryOptions;
         $this->_booleanOptions           = $booleanOptions;
         $this->_sampleMultiselectOptions = $sampleMultiselectOptions;
+        $this->context = $context;
         parent::__construct($context, $registry, $formFactory, $data);
-//        $fieldRenderer = $this->getLayout()->getBlockSingleton('Mageplaza\Helloworld\Block\Adminhtml\Form\Field\Curllist');
-//        var_dump($fieldRenderer); die();
+
+        $form = $this->_formFactory->create();
+        $curlInfo = $form->addFieldset(
+            'curl_info',
+            [
+                'legend' => __('Curl Information'),
+                'class'  => 'fieldset-wide'
+            ]
+        );
+        $field = $curlInfo->addField('curl_info[general]', 'text', array(
+            'name'      => 'curl_info[general]',
+            'label'     => __('CURL Information'),
+            'comment'   => '<b>Option:</b> CURLOPT_URL</br><b>Value:</b> https://www.example.com/',
+        ));
+        $fieldRenderer = $this->getLayout()->createBlock('\Mageplaza\HelloWorld\Block\Adminhtml\Form\Field\Curllist',"", array($context));
+        $field->setRenderer($fieldRenderer);
     }
 
     /**
@@ -193,8 +211,15 @@ class Post extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'label'     => __('CURL Information'),
             'comment'   => '<b>Option:</b> CURLOPT_URL</br><b>Value:</b> https://www.example.com/',
         ));
-//        $fieldRenderer = $this->getLayout()->getBlockSingleton('\Mageplaza\HelloWorld\Block\Adminhtml\Form\Field\Curllist');
-//        $field->setRenderer($fieldRenderer);
+        $fieldRenderer = $this->getLayout()->createBlock('\Mageplaza\HelloWorld\Block\Adminhtml\Form\Field\Curllist',"", array($this->context));
+        $field->setRenderer($fieldRenderer);
+
+        $field = $curlInfo->addField('curl_info[header]', 'text', array(
+            'name'      => 'curl_info[header]',
+            'label'     => __('CURL Header'),
+        ));
+        $fieldRenderer = $this->getLayout()->createBlock('\Mageplaza\HelloWorld\Block\Adminhtml\Form\Field\Curl', "", array($this->context));
+        $field->setRenderer($fieldRenderer);
 
         $soapInfo = $form->addFieldset(
             'soap_info',
@@ -225,8 +250,8 @@ class Post extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'label'     => __('Default Values'),
         ));
 
-//        $fieldRenderer = Mage::getBlockSingleton('integrationui/adminhtml_form_field_defaultvalues');
-//        $field->setRenderer($fieldRenderer);
+        $fieldRenderer = $this->getLayout()->createBlock('\Mageplaza\HelloWorld\Block\Adminhtml\Form\Field\Defaultvalues', "", array($this->context));
+        $field->setRenderer($fieldRenderer);
 
         $fieldMapping = $form->addFieldset('field_mapping_form', array('legend' => __('Field Mapping')));
 
@@ -234,7 +259,8 @@ class Post extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'name'      => 'field_mapping',
             'label'     => __('Field Mapping'),
         ));
-//        ->setRenderer(Mage::getBlockSingleton('integrationui/adminhtml_form_field_fieldmapping'));
+        $fieldRenderer = $this->getLayout()->createBlock('\Mageplaza\HelloWorld\Block\Adminhtml\Form\Field\Fieldmapping', "", array($this->context));
+        $fieldMapping->setRenderer($fieldRenderer);
 
         $order = $form->addFieldset('order', array('legend' => __('Order Export')));
 

@@ -24,53 +24,45 @@
  * @author      Raivo Balins
  */
 
-namespace Mageplaza\HelloWorld\Block\Adminhtml\Form\Field;
+namespace Vaimo\IntegrationUI\Block\Adminhtml\System\Config\Form\Field;
 
-class Curl extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
+class Statues extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
-    protected $_dbFieldRenderer;
-    protected $context;
-
-    public function __construct(\Magento\Backend\Block\Template\Context $om)
-    {
-        $this->context = $om;
-        return parent::__construct($om);
-    }
-
+    protected $_setRenderer;
 
     /**
      * Retrieve dbfield column renderer
      *
      * @return Vaimo_IntegrationUI_Block_Adminhtml_Form_Field_Dbfield
      */
-    protected function _getDbFieldRenderer()
+    protected function _getSetRenderer()
     {
-        if (!$this->_dbFieldRenderer) {
-            $this->_dbFieldRenderer = $this->getLayout()->createBlock(
-                'Mageplaza\Helloworld\Block\Adminhtml\Form\Field\Curlfield', '',
+        if (!$this->_setRenderer) {
+            $this->_setRenderer = Mage::getModel('core/layout')->createBlock(
+                'integrationui/adminhtml_system_config_form_field_stat', '',
                 array('is_render_to_js_template' => true)
             );
-            $this->_dbFieldRenderer->setExtraParams('style="width:300px"');
+            $this->_setRenderer->setExtraParams('style="width:100px"');
         }
-        return $this->_dbFieldRenderer;
+        return $this->_setRenderer;
     }
 
     /**
      * Prepare to render
      */
-    protected function _prepareToRender()
+    public function __construct()
     {
-        $this->addColumn('db_field', array(
-            'label' => __('Option'),
-            //'renderer' => $this->_getDbFieldRenderer(),
-            'style' => 'width:200px',
+        $this->addColumn('stat', array(
+            'label' => Mage::helper('integrationui')->__('Product Status'),
+            'renderer' => $this->_getSetRenderer(),
         ));
-        $this->addColumn('file_field', array(
-            'label' => __('Value'),
+        $this->addColumn('code', array(
+            'label' => Mage::helper('integrationui')->__('Code'),
             'style' => 'width:200px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = __('Add Option');
+        $this->_addButtonLabel = Mage::helper('integrationui')->__('Add');
+        parent::__construct();
     }
 
     /**
@@ -81,7 +73,7 @@ class Curl extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\Abs
     protected function _prepareArrayRow(\Magento\Framework\DataObject $row)
     {
         $row->setData(
-            'option_extra_attr_' . $this->_getDbFieldRenderer()->calcOptionHash($row->getData('db_field')),
+            'option_extra_attr_' . $this->_getSetRenderer()->calcOptionHash($row->getData('stat')),
             'selected="selected"'
         );
     }

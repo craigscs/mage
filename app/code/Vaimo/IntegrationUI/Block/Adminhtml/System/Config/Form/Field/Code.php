@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2013 Vaimo AB
+ * Copyright (c) 2009-2012 Vaimo AB
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,30 +20,14 @@
  *
  * @category    Vaimo
  * @package     Vaimo_IntegrationUI
- * @copyright   Copyright (c) 2009-2013 Vaimo AB
- * @author      Raivo Balins
+ * @copyright   Copyright (c) 2009-2012 Vaimo AB
+ * @author      Urmo Schmidt
  */
 
-namespace Mageplaza\HelloWorld\Block\Adminhtml\Form\Field;
+namespace Vaimo\IntegrationUI\Block\Adminhtml\System\Config\Form\Field;
 
-class Yesno extends \Magento\Framework\View\Element\Html\Select
+class Code extends \Magento\Framework\View\Element\Html\Select
 {
-
-    private $_yesno;
-
-    protected function _getYesno($groupId = null)
-    {
-        if (is_null($this->_yesno)) {
-            $this->_yesno = array(0 => 'No',
-                1 => 'Yes',
-            );
-        }
-        if (!is_null($groupId)) {
-            return isset($this->_yesno[$groupId]) ? $this->_yesno[$groupId] : null;
-        }
-        return $this->_yesno;
-    }
-
     public function setInputName($value)
     {
         return $this->setName($value);
@@ -57,8 +41,17 @@ class Yesno extends \Magento\Framework\View\Element\Html\Select
     public function _toHtml()
     {
         if (!$this->getOptions()) {
-            foreach ($this->_getYesno() as $groupId => $groupLabel) {
-                $this->addOption($groupId, addslashes($groupLabel));
+            $codes = array(
+                'queued' => 'queued',
+                'completed' => 'completed',
+            );
+
+            foreach ($codes as $value => $label) {
+                $options[$value] = $label;
+            }
+
+            foreach ($options as $label => $values) {
+                $this->addOption($values, $label);
             }
         }
         return parent::_toHtml();

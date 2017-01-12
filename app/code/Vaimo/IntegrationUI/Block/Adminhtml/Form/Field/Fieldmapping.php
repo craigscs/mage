@@ -24,20 +24,14 @@
  * @author      Urmo Schmidt
  */
 
-namespace Mageplaza\HelloWorld\Block\Adminhtml\Form\Field;
+namespace Vaimo\IntegrationUI\Block\Adminhtml\Form\Field;
 
 class Fieldmapping extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
     protected $_dbFieldRenderer;
     protected $_yesnoRenderer;
     protected $_prefixRenderer;
-    protected $context;
 
-    public function __construct(\Magento\Backend\Block\Template\Context $om)
-    {
-        $this->context = $om;
-        return parent::__construct($om);
-    }
     /**
      * Retrieve dbfield column renderer
      *
@@ -47,8 +41,8 @@ class Fieldmapping extends \Magento\Config\Block\System\Config\Form\Field\FieldA
     {
         if (!$this->_dbFieldRenderer) {
             $this->_dbFieldRenderer = $this->getLayout()->createBlock(
-                'Mageplaza\Helloworld\Block\Adminhtml\Form\Field\DbField', '',
-                array($this->context, 'is_render_to_js_template' => true)
+                'integrationui/adminhtml_form_field_dbfield', '',
+                array('is_render_to_js_template' => true)
             );
             //            $this->_dbFieldRenderer->setClass('customer_group_select');
             $this->_dbFieldRenderer->setExtraParams('style="width:300px"');
@@ -59,9 +53,9 @@ class Fieldmapping extends \Magento\Config\Block\System\Config\Form\Field\FieldA
     protected function _getYesnoRenderer()
     {
         if (!$this->_yesnoRenderer) {
-            $this->_yesnoRenderer = $this->getLayout()->createBlock(
-                'Mageplaza\HelloWorld\Block\Adminhtml\Form\Field\YesNo', '',
-                array($this->context, 'is_render_to_js_template' => true)
+            $this->_yesnoRenderer = Mage::getModel('core/layout')->createBlock(
+                'integrationui/adminhtml_form_field_yesno', '',
+                array('is_render_to_js_template' => true)
             );
             $this->_yesnoRenderer->setClass('yesno_select');
             $this->_yesnoRenderer->setExtraParams('style="width:60px"');
@@ -72,9 +66,9 @@ class Fieldmapping extends \Magento\Config\Block\System\Config\Form\Field\FieldA
     protected function _getPrefixRenderer()
     {
         if (!$this->_prefixRenderer) {
-            $this->_prefixRenderer = $this->getLayout()->createBlock(
-                'Mageplaza\HelloWorld\Block\Adminhtml\Form\Field\DbField', '',
-                array($this->context, 'is_render_to_js_template' => true)
+            $this->_prefixRenderer = Mage::getModel('core/layout')->createBlock(
+                'integrationui/adminhtml_form_field_dbfield', '',
+                array('is_render_to_js_template' => true)
             );
             $this->_prefixRenderer->setExtraParams('style="width:100px"');
         }
@@ -87,23 +81,23 @@ class Fieldmapping extends \Magento\Config\Block\System\Config\Form\Field\FieldA
     protected function _prepareToRender()
     {
         $this->addColumn('db_field', array(
-            'label' => __('In Database'),
+            'label' => Mage::helper('integrationui')->__('In Database'),
             'renderer' => $this->_getDbFieldRenderer(),
         ));
         $this->addColumn('file_field', array(
-            'label' => __('In File'),
+            'label' => Mage::helper('integrationui')->__('In File'),
             'style' => 'width:126px',
         ));
         $this->addColumn('new', array(
-            'label' => __('New Only'),
+            'label' => Mage::helper('integrationui')->__('New Only'),
             'renderer' => $this->_getYesnoRenderer(),
         ));
         $this->addColumn('prefix', array(
-            'label' => __('Prefix'),
+            'label' => Mage::helper('integrationui')->__('Prefix'),
             'renderer' => $this->_getPrefixRenderer(),
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = __('Add Field Mapping');
+        $this->_addButtonLabel = Mage::helper('cataloginventory')->__('Add Field Mapping');
     }
 
     /**

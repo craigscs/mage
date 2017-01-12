@@ -24,26 +24,10 @@
  * @author      Raivo Balins
  */
 
-namespace Mageplaza\HelloWorld\Block\Adminhtml\Form\Field;
+namespace Mageplaza\Helloworld\Block\Adminhtml\Form\Field;
 
-class Yesno extends \Magento\Framework\View\Element\Html\Select
+class CurlField extends \Magento\Framework\View\Element\Html\Select
 {
-
-    private $_yesno;
-
-    protected function _getYesno($groupId = null)
-    {
-        if (is_null($this->_yesno)) {
-            $this->_yesno = array(0 => 'No',
-                1 => 'Yes',
-            );
-        }
-        if (!is_null($groupId)) {
-            return isset($this->_yesno[$groupId]) ? $this->_yesno[$groupId] : null;
-        }
-        return $this->_yesno;
-    }
-
     public function setInputName($value)
     {
         return $this->setName($value);
@@ -57,8 +41,23 @@ class Yesno extends \Magento\Framework\View\Element\Html\Select
     public function _toHtml()
     {
         if (!$this->getOptions()) {
-            foreach ($this->_getYesno() as $groupId => $groupLabel) {
-                $this->addOption($groupId, addslashes($groupLabel));
+            $curlOptions = array(
+                'CURLOPT_RETURNTRANSFER' => 'CURLOPT_RETURNTRANSFER',
+                'CURLOPT_URL' => 'CURLOPT_URL',
+                'CURLOPT_SSL_VERIFYPEER' => 'CURLOPT_SSL_VERIFYPEER',
+                'CURLOPT_SSL_VERIFYHOST' => 'CURLOPT_SSL_VERIFYHOST',
+                'CURLOPT_POST' => 'CURLOPT_POST',
+                'CURLOPT_POSTFIELDS' => 'CURLOPT_POSTFIELDS',
+                //*** If you add any new field here, please add it also in Model/Import.php
+                //'CURLOPT_HTTPHEADER' => 'CURLOPT_HTTPHEADER', *** Header field is additional configuration
+            );
+
+            foreach ($curlOptions as $value => $label) {
+                $options['cURL']['cURL.' . $value] = $label;
+            }
+
+            foreach ($options as $label => $values) {
+                $this->addOption($values, $label);
             }
         }
         return parent::_toHtml();

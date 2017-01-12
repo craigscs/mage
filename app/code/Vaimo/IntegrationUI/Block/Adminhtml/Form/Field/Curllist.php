@@ -24,19 +24,11 @@
  * @author      Raivo Balins
  */
 
-namespace Mageplaza\HelloWorld\Block\Adminhtml\Form\Field;
+namespace Vaimo\IntegrationUI\Block\Adminhtml\Form\Field;
 
-class Curl extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
+class CurlList extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
     protected $_dbFieldRenderer;
-    protected $context;
-
-    public function __construct(\Magento\Backend\Block\Template\Context $om)
-    {
-        $this->context = $om;
-        return parent::__construct($om);
-    }
-
 
     /**
      * Retrieve dbfield column renderer
@@ -47,7 +39,7 @@ class Curl extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\Abs
     {
         if (!$this->_dbFieldRenderer) {
             $this->_dbFieldRenderer = $this->getLayout()->createBlock(
-                'Mageplaza\Helloworld\Block\Adminhtml\Form\Field\Curlfield', '',
+                'integrationui/adminhtml_form_field_curlfield', '',
                 array('is_render_to_js_template' => true)
             );
             $this->_dbFieldRenderer->setExtraParams('style="width:300px"');
@@ -61,16 +53,15 @@ class Curl extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\Abs
     protected function _prepareToRender()
     {
         $this->addColumn('db_field', array(
-            'label' => __('Option'),
-            //'renderer' => $this->_getDbFieldRenderer(),
-            'style' => 'width:200px',
+            'label' => Mage::helper('integrationui')->__('Option'),
+            'renderer' => $this->_getDbFieldRenderer(),
         ));
         $this->addColumn('file_field', array(
-            'label' => __('Value'),
+            'label' => Mage::helper('integrationui')->__('Value'),
             'style' => 'width:200px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = __('Add Option');
+        $this->_addButtonLabel = Mage::helper('cataloginventory')->__('Add Option');
     }
 
     /**

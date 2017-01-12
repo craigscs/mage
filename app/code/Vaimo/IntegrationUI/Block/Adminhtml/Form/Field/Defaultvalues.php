@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2013 Vaimo AB
+ * Copyright (c) 2009-2012 Vaimo AB
  *
  * Vaimo reserves all rights in the Program as delivered. The Program
  * or any portion thereof may not be reproduced in any form whatsoever without
@@ -20,23 +20,15 @@
  *
  * @category    Vaimo
  * @package     Vaimo_IntegrationUI
- * @copyright   Copyright (c) 2009-2013 Vaimo AB
- * @author      Raivo Balins
+ * @copyright   Copyright (c) 2009-2012 Vaimo AB
+ * @author      Urmo Schmidt
  */
 
-namespace Mageplaza\HelloWorld\Block\Adminhtml\Form\Field;
+namespace Vaimo\IntegrationUI\Block\Adminhtml\Form\Field;
 
-class Curl extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
+class Defaultvalue extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
     protected $_dbFieldRenderer;
-    protected $context;
-
-    public function __construct(\Magento\Backend\Block\Template\Context $om)
-    {
-        $this->context = $om;
-        return parent::__construct($om);
-    }
-
 
     /**
      * Retrieve dbfield column renderer
@@ -47,9 +39,10 @@ class Curl extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\Abs
     {
         if (!$this->_dbFieldRenderer) {
             $this->_dbFieldRenderer = $this->getLayout()->createBlock(
-                'Mageplaza\Helloworld\Block\Adminhtml\Form\Field\Curlfield', '',
+                'integrationui/adminhtml_form_field_dbfield', '',
                 array('is_render_to_js_template' => true)
             );
+            //            $this->_dbFieldRenderer->setClass('customer_group_select');
             $this->_dbFieldRenderer->setExtraParams('style="width:300px"');
         }
         return $this->_dbFieldRenderer;
@@ -61,16 +54,15 @@ class Curl extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\Abs
     protected function _prepareToRender()
     {
         $this->addColumn('db_field', array(
-            'label' => __('Option'),
-            //'renderer' => $this->_getDbFieldRenderer(),
-            'style' => 'width:200px',
+            'label' => Mage::helper('integrationui')->__('Entity Attribute'),
+            'renderer' => $this->_getDbFieldRenderer(),
         ));
         $this->addColumn('file_field', array(
-            'label' => __('Value'),
+            'label' => Mage::helper('integrationui')->__('Value'),
             'style' => 'width:200px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = __('Add Option');
+        $this->_addButtonLabel = Mage::helper('cataloginventory')->__('Add Default Value');
     }
 
     /**

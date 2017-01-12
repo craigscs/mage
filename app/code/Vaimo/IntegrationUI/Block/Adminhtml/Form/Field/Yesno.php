@@ -24,7 +24,7 @@
  * @author      Raivo Balins
  */
 
-namespace Mageplaza\HelloWorld\Block\Adminhtml\Form\Field;
+namespace Vaimo\IntegrationUI\Block\Adminhtml\Form\Field;
 
 class Yesno extends \Magento\Framework\View\Element\Html\Select
 {
