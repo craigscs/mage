@@ -1,0 +1,33 @@
+<!-- File: app/code/Pulsestorm/MenuTutorial/etc/adminhtml/menu.xml -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Vaimo_IntegrationUI"
+             title="Vaimo Integration"
+             module="Vaimo_IntegrationUI"
+             sortOrder="1"
+             parent="Magento_Backend::system" resource="Magento_Backend::stores_other_settings"
+        />
+        <add id="Vaimo_IntegrationUI::main_ui"
+             title="Integration UI"
+             module="Vaimo_IntegrationUI"
+             action = "integrationui/profile/index"
+             sortOrder="1"
+             resource="Magento_Backend::content"
+             parent="Vaimo_IntegrationUI"
+        />
+        <add id="Vaimo_IntegrationUI::scheduler"
+             title="Scheduler"
+             module="Vaimo_IntegrationUI"
+             sortOrder="1"
+             parent="Magento_Backend::system" resource="Magento_Backend::stores_other_settings"
+        />
+        <add id="Vaimo_IntegrationUI::messages"
+             title="Messages"
+             module="Vaimo_IntegrationUI"
+             action = "scheduler/config"
+             sortOrder="1"
+             resource="Magento_Backend::content"
+             parent="Vaimo_IntegrationUI::scheduler"
+        />
+    </menu>
+</config>
