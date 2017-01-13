@@ -68,6 +68,36 @@ class PostActions extends \Magento\Ui\Component\Listing\Columns\Column
      */
     public function prepareDataSource(array $dataSource)
     {
-        return array();
+        if (isset($dataSource['data']['items'])) {
+            foreach ($dataSource['data']['items'] as & $item) {
+                if (isset($item['post_id'])) {
+                    $item[$this->getData('name')] = [
+                        'edit' => [
+                            'href' => $this->_urlBuilder->getUrl(
+                                static::URL_PATH_EDIT,
+                                [
+                                    'post_id' => $item['post_id']
+                                ]
+                            ),
+                            'label' => __('Edit')
+                        ],
+                        'delete' => [
+                            'href' => $this->_urlBuilder->getUrl(
+                                static::URL_PATH_DELETE,
+                                [
+                                    'post_id' => $item['post_id']
+                                ]
+                            ),
+                            'label' => __('Delete'),
+                            'confirm' => [
+                                'title' => __('Delete "${ $.$data.name }"'),
+                                'message' => __('Are you sure you wan\'t to delete the Post "${ $.$data.name }" ?')
+                            ]
+                        ]
+                    ];
+                }
+            }
+        }
+        return $dataSource;
     }
 }
