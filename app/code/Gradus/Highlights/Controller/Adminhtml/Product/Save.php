@@ -2,7 +2,7 @@
 
 namespace Gradus\Highlights\Controller\Adminhtml\Product;
 
-class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
+class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Save
 {
     protected $highlight;
     private $storeManager;
