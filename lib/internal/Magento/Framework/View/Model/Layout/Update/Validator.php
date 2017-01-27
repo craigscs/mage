@@ -138,6 +138,7 @@ class Validator extends \Zend_Validate_Abstract
                 }
             }
         } catch (\Magento\Framework\Config\Dom\ValidationException $e) {
+            var_dump($value);
             $this->_error(self::XML_INVALID, $e->getMessage());
             throw $e;
         } catch (ValidationSchemaException $e) {
