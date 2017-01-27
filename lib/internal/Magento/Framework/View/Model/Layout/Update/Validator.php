@@ -120,6 +120,7 @@ class Validator extends \Zend_Validate_Abstract
     public function isValid($value, $schema = self::LAYOUT_SCHEMA_PAGE_HANDLE, $isSecurityCheck = true)
     {
         try {
+            var_dump($value);
             //wrap XML value in the "layout" and "handle" tags to make it validatable
             $value = '<layout xmlns:xsi="' . self::XML_NAMESPACE_XSI . '">' . $value . '</layout>';
             $this->_domConfigFactory->createDom(['xml' => $value, 'schemaFile' => $this->_xsdSchemas[$schema]]);
@@ -138,7 +139,6 @@ class Validator extends \Zend_Validate_Abstract
                 }
             }
         } catch (\Magento\Framework\Config\Dom\ValidationException $e) {
-            var_dump($value);
             $this->_error(self::XML_INVALID, $e->getMessage());
             throw $e;
         } catch (ValidationSchemaException $e) {
