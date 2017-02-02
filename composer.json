@@ -66,7 +66,7 @@
         "ext-zip": "*",
         "ext-pdo_mysql": "*",
         "sjparkinson/static-review": "~4.1",
-        "ramsey/uuid": "3.4"
+        "ramsey/uuid": "3.4",
 //        "magento/data-migration-tool": "2.1.2"
     },
     "require-dev": {
