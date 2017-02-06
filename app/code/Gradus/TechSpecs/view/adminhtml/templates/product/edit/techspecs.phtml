@@ -24,7 +24,7 @@ $count = 0;
     <?php foreach ($info as $header) : ?>
         <?php $speccount = 0 ?>
     <div class="header_div" id="header_div_<?= $count ?>">
-        <h3 id="header_title_<?= $count ?>">
+        <h3 id="header_title_<?= $count++ ?>">
             <div class="draggable-handle"></div>
             <div id="h_text_<?= $count ?>" class="header_txt"><?= $header['header']['header_name'] ?></div>
             <a class="delete_icon" src="javascript:void(0)" onclick="deleteHeader('header_div_<?= $count ?>')"></a>
@@ -108,6 +108,7 @@ $count = 0;
     function addHeader()
     {
         var count = $q('div.header_div').length+1;
+        varlbc = count++;
 
         var template = '<div class="header_div" id="header_div_'+count+'">'+
             '<h3 id="header_title_'+count+'">'+

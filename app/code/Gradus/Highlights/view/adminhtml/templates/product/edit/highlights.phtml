@@ -9,7 +9,7 @@ $count = 0;
             <?php if (!is_null($i)) : ?>
         <div class="specs_row" id="highlight_<?= $count ?>">
             <div class="draggable-handle"></div>
-            <label for="highlight_<?= $count ?>">Highlight <?= $count ?></label>
+            <label for="highlight_<?= $count ?>">Highlight <?= $count++ ?></label>
             <input id="hightlight_<?= $count ?>" style="width:90%;" data-form-part="product_form" value="<?= $i ?>" name="highlights[<?= $count ?>]" />
         <a class="delete_icon" src="javascript:void(0)" onclick="deleteHighlight('highlight_<?= $count ?>')"></a>
         </div>
@@ -33,9 +33,10 @@ $count = 0;
     function addHighlight()
     {
         var counts = $q('#highlight_container input').length;
+        var clb = counts++;
         $q('#highlight_container').append
-        ('<div class="specs_row" id="highlight_'+counts+'"><div class="draggable-handle"></div><label for=-"highlight_'+counts+'">Highlight '+counts+'</label>' +
-            '<input id="highlight_'+counts+'" style="width:90%;" data-form-part=\'product_form\' name=\'highlights["'+counts+'"]\' />' +
+        ('<div class="specs_row" id="highlight_'+counts+'"><div class="draggable-handle"></div><label for=-"highlight_'+counts+'">Highlight '+clb+'</label>' +
+            '<input id="highlight_'+counts+'" style="width:90%;" data-form-part=\'product_form\' name=\'highlights["'+clb+'"]\' />' +
             "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteHighlight('highlight_"+counts+"')\"></a><br/></div>");
     }
 
