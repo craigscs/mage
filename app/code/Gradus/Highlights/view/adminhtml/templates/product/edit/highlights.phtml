@@ -1,6 +1,7 @@
 <?php
 $tech = $this->getProduct()->getData('highlights');
 $info = json_decode($tech, true);
+var_dump($info);
 $count = 0;
 ?>
 <div id="highlight_container" style="width:900px; margin:auto;">
@@ -33,7 +34,7 @@ $count = 0;
     function addHighlight()
     {
         var counts = $q('#highlight_container input').length;
-        var clb = counts++;
+        var clb = counts+1;
         $q('#highlight_container').append
         ('<div class="specs_row" id="highlight_'+counts+'"><div class="draggable-handle"></div><label for=-"highlight_'+counts+'">Highlight '+clb+'</label>' +
             '<input id="highlight_'+counts+'" style="width:90%;" data-form-part=\'product_form\' name=\'highlights["'+clb+'"]\' />' +

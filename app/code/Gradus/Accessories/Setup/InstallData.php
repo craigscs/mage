@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Boolfly\ProductRelation\Setup;
+namespace Gradus\Accessories\Setup;
 
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;

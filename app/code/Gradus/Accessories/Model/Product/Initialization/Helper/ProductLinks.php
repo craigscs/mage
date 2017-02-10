@@ -2,7 +2,7 @@
 
 namespace Gradus\Accessories\Model\Product\Initialization\Helper;
 
-use Boolfly\ProductRelation\Model\Catalog\Product\Link;
+use Gradus\Accessories\Model\Catalog\Product\Link;
 use Magento\Catalog\Api\Data\ProductLinkExtensionFactory;
 use Magento\Catalog\Api\Data\ProductLinkInterfaceFactory;
 use Magento\Catalog\Api\ProductRepositoryInterface;

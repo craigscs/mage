@@ -1,48 +1,22 @@
 <?php
 
-namespace Gradus\TechSpecs\Controller\Adminhtml\Product;
+namespace Gradus\InTheBox\Controller\Adminhtml\Product;
 
-class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
+class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Save
 {
-    protected $tss;
-    protected $highlights;
-    protected $features;
-    protected $inthebox;
+    protected $in_the_box;
     private $storeManager;
     public function execute()
     {
-        if (isset($_POST['techspec'])) {
-            $ts = $_POST['techspec'];
+        var_dump("SDFFSD"); die();
+        if (isset($_POST['in_the_box'])) {
+            $ts = $_POST['in_the_box'];
             $tss = json_encode($ts);
-            $_POST['product']['tech_specs'] = $tss;
-            $this->tss = $tss;
+            $_POST['product']['in_the_box'] = $tss;
+            $this->in_the_box = $tss;
             $this->getRequest()->setParams($_POST);
         } else {
-            $this->tss = '';
-        }
-
-        if (isset($_POST['highlights'])) {
-            $h = $_POST['highlights'];
-            $hs = json_encode($h);
-            $this->highlight = $hs;
-        } else {
-            $this->highlight = '';
-        }
-
-            if (isset($_POST['features'])) {
-                $h = $_POST['features'];
-                $hs = json_encode($h);
-                $this->features = $hs;
-            } else {
-                $this->features = '';
-            }
-
-        if (isset($_POST['in_the_box'])) {
-            $h = $_POST['in_the_box'];
-            $hs = json_encode($h);
-            $this->inthebox = $hs;
-        } else {
-            $this->inthebox = '';
+            $this->in_the_box = '';
         }
 
         $storeId = $this->getRequest()->getParam('store', 0);
@@ -67,10 +41,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
                 }
 
                 $originalSku = $product->getSku();
-                $product->setData('tech_specs', $this->tss);
-                $product->setData('highlights', $this->highlight);
-                $product->setData('features', $this->features);
-                $product->setData('in_the_box', $this->inthebox);
+                $product->setData('in_the_box', $this->in_the_box);
                 $product->save();
 
                 $this->handleImageRemoveError($data, $product->getId());

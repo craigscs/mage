@@ -1,6 +1,6 @@
 <?php
 
-namespace Boolfly\ProductRelation\Setup;
+namespace Gradus\Accessories\Setup;
 
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
@@ -38,7 +38,7 @@ class UpgradeData implements UpgradeDataInterface
          * Install product link types
          */
         $data = [
-            ['link_type_id' => \Boolfly\ProductRelation\Model\Catalog\Product\Link::LINK_TYPE_ACCESSORIES, 'code' => 'accessories']
+            ['link_type_id' => \Gradus\Accessories\Model\Catalog\Product\Link::LINK_TYPE_ACCESSORIES, 'code' => 'accessories']
         ];
 
         foreach ($data as $bind) {
@@ -51,7 +51,7 @@ class UpgradeData implements UpgradeDataInterface
          */
         $data = [
             [
-                'link_type_id' => \Boolfly\ProductRelation\Model\Catalog\Product\Link::LINK_TYPE_ACCESSORIES,
+                'link_type_id' => \Gradus\Accessories\Model\Catalog\Product\Link::LINK_TYPE_ACCESSORIES,
                 'product_link_attribute_code' => 'position',
                 'data_type' => 'int',
             ]

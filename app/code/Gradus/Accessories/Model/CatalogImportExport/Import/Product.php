@@ -1,6 +1,6 @@
 <?php
 
-namespace Boolfly\ProductRelation\Model\CatalogImportExport\Import;
+namespace Gradus\Accessories\Model\CatalogImportExport\Import;
 
 class Product extends \Magento\CatalogImportExport\Model\Import\Product
 {
@@ -11,7 +11,7 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
         '_related_' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED,
         '_crosssell_' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL,
         '_upsell_' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL,
-        '_accessories_' => \Boolfly\ProductRelation\Model\Catalog\Product\Link::LINK_TYPE_ACCESSORIES
+        '_accessories_' => \Gradus\Accessories\Model\Catalog\Product\Link::LINK_TYPE_ACCESSORIES
     ];
 
     /**

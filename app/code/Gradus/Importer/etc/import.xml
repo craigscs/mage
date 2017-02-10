@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_ImportExport:etc/import.xsd">
+    <entity name="product_gradus" label="Custom Product" model="Magento\CatalogImportExport\Model\Import\Product" behaviorModel="Magento\ImportExport\Model\Source\Import\Behavior\Basic" />
+    <entity name="features" label="Product Features" model="Magento\CatalogImportExport\Model\Import\Product" behaviorModel="Magento\ImportExport\Model\Source\Import\Behavior\Basic" />
+    <entity name="highlights" label="Product Highlights" model="Magento\CatalogImportExport\Model\Import\Product" behaviorModel="Magento\ImportExport\Model\Source\Import\Behavior\Basic" />
+</config>
