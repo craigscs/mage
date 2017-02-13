@@ -776,9 +776,9 @@ abstract class AbstractEntity
                         }
                     }
                 }
-                $this->addErrors(self::ERROR_CODE_INVALID_ATTRIBUTE, $invalidAttributes);
-                $this->addErrors(self::ERROR_CODE_COLUMN_EMPTY_HEADER, $emptyHeaderColumns);
-                $this->addErrors(self::ERROR_CODE_COLUMN_NAME_INVALID, $invalidColumns);
+//                $this->addErrors(self::ERROR_CODE_INVALID_ATTRIBUTE, $invalidAttributes);
+//                $this->addErrors(self::ERROR_CODE_COLUMN_EMPTY_HEADER, $emptyHeaderColumns);
+//                $this->addErrors(self::ERROR_CODE_COLUMN_NAME_INVALID, $invalidColumns);
             }
 
             if (!$this->getErrorAggregator()->getErrorsCount()) {

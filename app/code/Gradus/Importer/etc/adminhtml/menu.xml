@@ -1,0 +1,7 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magento_ImportExport::bh_import" title="Import BH" translate="title"
+             module="Gradus_Importer" sortOrder="11" parent="Magento_Backend::system_convert"
+             action="bhimport" resource="Magento_Backend::content"/>
+    </menu>
+</config>

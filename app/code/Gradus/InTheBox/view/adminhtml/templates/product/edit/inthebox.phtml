@@ -1,7 +1,7 @@
 <?php
 $tech = $this->getProduct()->getData('in_the_box');
 $info = json_decode($tech, true);
-$count = 0;
+$count = 1;
 ?>
 <div id="in_the_box_container" style="width:900px; margin:auto;">
     <?php if (count($info) > 0) : ?>
@@ -9,11 +9,11 @@ $count = 0;
             <?php if (!is_null($i)) : ?>
         <div class="specs_row" id="in_the_box_<?= $count ?>">
             <div class="draggable-handle"></div>
-            <label for="in_the_box_value_<?= $count ?>">In The Box <?= $count++ ?></label>
+            <label for="in_the_box_value_<?= $count ?>">In The Box <?= $count ?></label>
             <input id="in_the_box_value_<?= $count ?>" style="width:30%;" data-form-part="product_form" value="<?= $i['value'] ?>" name="in_the_box[<?= $count ?>][value]" />
-            <label for="in_the_box_count_<?= $count ?>">Amount <?= $count++ ?></label>
+            <label for="in_the_box_count_<?= $count ?>">Amount <?= $count ?></label>
             <input id="in_the_box_count_<?= $count ?>" style="width:30%;" data-form-part="product_form" value="<?= $i['count'] ?>" name="in_the_box[<?= $count ?>][count]" />
-        <a class="delete_icon" src="javascript:void(0)" onclick="deleteinthebox('in_the_box_<?= $count ?>')"></a>
+        <a class="delete_icon" src="javascript:void(0)" onclick="deleteinthebox('in_the_box_<?= $count ?>//////')"></a>
         </div>
         <?php $count++ ?>
             <?php endif ?>

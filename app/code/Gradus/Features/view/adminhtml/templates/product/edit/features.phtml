@@ -1,8 +1,6 @@
 <?php
 $tech = $this->getProduct()->getData('features');
 $info = json_decode($tech, true);
-var_dump($info);
-//$info = [];
 $count = 0;
 $clb = 1;
 ?>
@@ -45,7 +43,7 @@ $clb = 1;
             '<input id="feat_n_'+counts+'" style="width:15%; margin-right:5px;" data-form-part="product_form" value="" name="features['+counts+'][name]" />'+
             '<label for="feat_d_'+counts+'">Feature '+clb+'</label>'+
             '<textarea id="feat_d_'+counts+'" style="width:50%; vertical-align: top;" data-form-part="product_form" name="features['+counts+'][desc]"></textarea>'+
-            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteFeature(features_"+counts+")\"></a>" +
+            "<a class=\"delete_icon\" src=\"javascript:void(0)\" onclick=\"deleteFeature(\'features_"+counts+"\')\"></a>" +
             "<br/></div>");
     }
 

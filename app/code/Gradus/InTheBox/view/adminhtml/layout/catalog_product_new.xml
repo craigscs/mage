@@ -5,7 +5,7 @@
     </head>
     <body>
         <referenceBlock name="product_form">
-            <block class="Gradus\InTheBox\Block\Adminhtml\Catalog\Product\Edit\Tab\InTheBox" name="highlights.tab">
+            <block class="Gradus\InTheBox\Block\Adminhtml\Catalog\Product\Edit\Tab\InTheBox" name="inthebox.tab">
                 <arguments>
                     <argument name="config" xsi:type="array">
                         <item name="label" xsi:type="string" translate="true">In The Box</item>
