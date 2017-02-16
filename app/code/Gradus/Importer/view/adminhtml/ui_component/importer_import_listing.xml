@@ -190,7 +190,7 @@
         </column>
         <column name="succeeded">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\Cms\Model\Page\Source\IsActive</item>
+                <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\YesNo</item>
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">select</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
