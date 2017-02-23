@@ -1,12 +1,12 @@
 <?php
 
-namespace Gradus\Accessories\Block\Adminhtml\Catalog\Product\Edit\Tab;
+namespace Gradus\Compatibility\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
 use Magento\Backend\Block\Widget\Grid\Column;
 use Magento\Backend\Block\Widget\Grid\Extended;
 use Magento\Catalog\Model\Product;
 
-class Accessories extends Extended
+class Compatibility extends Extended
 {
     /**
      * Core registry
@@ -85,7 +85,7 @@ class Accessories extends Extended
     protected function _construct()
     {
         parent::_construct();
-        $this->setId('accessories_product_grid');
+        $this->setId('compatibility_product_grid');
         $this->setDefaultSort('entity_id');
         $this->setUseAjax(true);
         if ($this->getProduct() && $this->getProduct()->getId()) {
@@ -165,7 +165,7 @@ class Accessories extends Extended
      */
     public function isReadonly()
     {
-        return $this->getProduct() && $this->getProduct()->getAccessoriesReadonly();
+        return $this->getProduct() && $this->getProduct()->getCompatibilityReadonly();
     }
 
     /**
@@ -320,7 +320,7 @@ class Accessories extends Extended
         ) ? $this->getData(
             'grid_url'
         ) : $this->getUrl(
-            'catalog/*/accessoriesGrid',
+            'catalog/*/compatibilityGrid',
             ['_current' => true]
         );
     }
@@ -332,9 +332,9 @@ class Accessories extends Extended
      */
     protected function _getSelectedProducts()
     {
-        $products = $this->getProductsAccessories();
+        $products = $this->getProductsCompatibility();
         if (!is_array($products)) {
-            $products = array_keys($this->getSelectedAccessoriesProducts());
+            $products = array_keys($this->getSelectedCompatibilityProducts());
         }
         return $products;
     }
@@ -344,10 +344,10 @@ class Accessories extends Extended
      *
      * @return array
      */
-    public function getSelectedAccessoriesProducts()
+    public function getSelectedCompatibilityProducts()
     {
         $products = [];
-        foreach ($this->_coreRegistry->registry('current_product')->getAccessoriesProducts() as $product) {
+        foreach ($this->_coreRegistry->registry('current_product')->getCompatibilityProducts() as $product) {
             $products[$product->getId()] = ['position' => $product->getPosition()];
         }
         return $products;

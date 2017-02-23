@@ -38,11 +38,16 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
      */
     protected function _prepareForm()
     {
-        /* @var $model \SR\Weblog\Model\BlogPosts */
         $model = $this->_coreRegistry->registry('import');
         $isElementDisabled = false;
         /** @var \Magento\Framework\Data\Form $form */
-        $form = $this->_formFactory->create();
+        $form = $this->_formFactory->create(
+            [
+                'data' => [
+                    'enctype' => 'multipart/form-data'
+                ]
+            ]
+        );
         $form->setHtmlIdPrefix('page_');
         $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Import')]);
         if ($model->getId()) {
@@ -58,6 +63,17 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
                 'required' => true,
                 'disabled' => $isElementDisabled,
                 'options' => $this->getFiles()
+            ]
+        );
+        $fieldset->addField(
+            'upl',
+            'image',
+            [
+                'name' => 'upl',
+                'label' => __('Upload'),
+                'title' => __('Upload'),
+                'required' => true,
+                'disabled' => $isElementDisabled
             ]
         );
 

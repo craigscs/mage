@@ -1,16 +1,28 @@
 <?php
-namespace Gradus\Importer\Controller\Adminhtml\Blog;
+namespace Gradus\Importer\Controller\Adminhtml\Import;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Filesystem;
+use Magento\MediaStorage\Model\File\UploaderFactory;
 
 class Save extends \Magento\Backend\App\Action
 {
+    protected $fileSystem;
+    protected $uploaderFactory;
+    protected $allowedExtensions = ['csv'];
+    protected $fileId = 'upl';
 
     /**
      * @param Action\Context $context
      */
-    public function __construct(Action\Context $context)
+    public function __construct(Action\Context $context,
+                                Filesystem $fileSystem,
+                                UploaderFactory $uploaderFactory)
     {
+        $this->fileSystem = $fileSystem;
+        $this->uploaderFactory = $uploaderFactory;
         parent::__construct($context);
     }
 
@@ -25,34 +37,27 @@ class Save extends \Magento\Backend\App\Action
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         if ($data) {
-            $model = $this->_objectManager->create('Gradus\Importer\Model\Import');
-
-            $id = $this->getRequest()->getParam('import_id');
-            if ($id) {
-                $model->load($id);
-            }
-
-            $model->setData($data);
-
+            $destinationPath = "shell/import";
             try {
-                $model->save();
-                $this->messageManager->addSuccess(__('The import has been run.'));
-                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
-                if ($this->getRequest()->getParam('back')) {
-                    return $resultRedirect->setPath('*/*/edit', ['import_id' => $model->getId(), '_current' => true]);
+                $uploader = $this->uploaderFactory->create(array('fileId' => $this->fileId))
+                    ->setAllowCreateFolders(true)
+                    ->setAllowedExtensions($this->allowedExtensions);
+                if (!$uploader->save($destinationPath)) {
+                    throw new LocalizedException(
+                        __('File cannot be saved to path: $1', $destinationPath)
+                    );
                 }
-                return $resultRedirect->setPath('*/*/');
-            } catch (\Magento\Framework\Exception\LocalizedException $e) {
-                $this->messageManager->addError($e->getMessage());
-            } catch (\RuntimeException $e) {
-                $this->messageManager->addError($e->getMessage());
+                $out = array();
+                chdir("shell/import");
+                exec("features.php", $out);
+                $this->messageManager->addSuccessMessage(json_encode($out));
             } catch (\Exception $e) {
-                $this->messageManager->addException($e, __('Something went wrong while running this import.'));
+                $this->messageManager->addError(
+                    __($e->getMessage())
+                );
+                return $resultRedirect->setPath('*/*/edit', ['import_id' => $this->getRequest()->getParam('import_id')]);
             }
-
-            $this->_getSession()->setFormData($data);
-            return $resultRedirect->setPath('*/*/edit', ['import_id' => $this->getRequest()->getParam('import_id')]);
+            return $resultRedirect->setPath('*/*/');
         }
-        return $resultRedirect->setPath('*/*/');
     }
 }

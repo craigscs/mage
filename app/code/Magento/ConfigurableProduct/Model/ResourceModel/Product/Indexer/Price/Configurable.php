@@ -72,6 +72,7 @@ class Configurable extends \Magento\Catalog\Model\ResourceModel\Product\Indexer\
      */
     private function getRelatedProducts($entityIds)
     {
+        return array();
         $metadata = $this->getMetadataPool()->getMetadata(ProductInterface::class);
         $select = $this->getConnection()->select()->union(
             [

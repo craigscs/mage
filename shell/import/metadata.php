@@ -10,7 +10,7 @@ $state = $obj->get('Magento\Framework\App\State');
 $state->setAreaCode('adminhtml');
 
 $pr = $obj->create('Magento\Catalog\Model\ProductRepository');
-$file = fopen('shell/import/highlights.csv', 'r');
+$file = fopen('shell/import/metadata.csv', 'r');
 $c = 0;
 while (($rowData = fgetcsv($file, 4096)) !== false)
 {
@@ -18,16 +18,22 @@ while (($rowData = fgetcsv($file, 4096)) !== false)
         $c++;
         continue;
     }
-    if(!isset($productData[$row[2]]))
+    {   if(!isset($productData[$row['2']]))
     {
-        $productData[$row[2]] = array();
+        $productData[$row['2']] = array();
     }
-        $productData[$row[2]][$row[3]] = $row[4];
+        $productData[$row['2']] = array(
+            "keyword" => $row['3'],
+            "description" => $row['4']
+        );
+    }
 }
 fclose($file);
 foreach ($productData as $sku => $value) {
     $p = $pr->get($sku);
-    $product->setData("highlights", json_encode($value));
-    $p->getResource()->saveAttribute($p, 'highlights');
+    $product->setData("meta_keyword", $overviewData['keyword']);
+    $product->setData("meta_description", $overviewData['description']);
+    $p->getResource()->saveAttribute($p, 'meta_keyword');
+    $p->getResource()->saveAttribute($p, 'meta_description');
     echo "SKU ".$sku." saved.";
 }
