@@ -2405,8 +2405,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $this->urlKeys[$storeId][$urlPath] = $rowData[self::COL_SKU];
                     $this->rowNumbers[$storeId][$urlPath] = $rowNum;
                 } else {
-//                    $this->urlKeys[$storeId][$urlPath] = $rowData[self::COL_SKU]."_".rand(1,100000);
-//                    $this->rowNumbers[$storeId][$urlPath] = $rowNum;
                     $message = sprintf(
                         $this->retrieveMessageTemplate(ValidatorInterface::ERROR_DUPLICATE_URL_KEY),
                         $urlKey,
@@ -2431,7 +2429,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     private function isNeedToValidateUrlKey($rowData)
     {
         return (!empty($rowData[self::URL_KEY]) || !empty($rowData[self::COL_NAME]))
-            && (empty($rowData[self::COL_VISIBILITY])
+        && (empty($rowData[self::COL_VISIBILITY])
             || $rowData[self::COL_VISIBILITY]
             !== (string)Visibility::getOptionArray()[Visibility::VISIBILITY_NOT_VISIBLE]);
     }
