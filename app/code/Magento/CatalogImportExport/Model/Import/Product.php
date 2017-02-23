@@ -1,13 +1,10 @@
 <?php
 /**
- * Copyright © 2016 Magento. All rights reserved.
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-
 // @codingStandardsIgnoreFile
-
 namespace Magento\CatalogImportExport\Model\Import;
-
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\CatalogImportExport\Model\Import\Product\RowValidatorInterface as ValidatorInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
@@ -18,7 +15,6 @@ use Magento\ImportExport\Model\Import;
 use Magento\ImportExport\Model\Import\Entity\AbstractEntity;
 use Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingError;
 use Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingErrorAggregatorInterface;
-
 /**
  * Import entity product model
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -28,153 +24,123 @@ use Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingErrorAggregatorI
 class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 {
     const CONFIG_KEY_PRODUCT_TYPES = 'global/importexport/import_product_types';
-
     /**
      * Size of bunch - part of products to save in one step.
      */
     const BUNCH_SIZE = 20;
-
     /**
      * Size of bunch to delete attributes of products in one step.
      */
     const ATTRIBUTE_DELETE_BUNCH = 1000;
-
     /**
      * Pseudo multi line separator in one cell.
      *
      * Can be used as custom option value delimiter or in configurable fields cells.
      */
     const PSEUDO_MULTI_LINE_SEPARATOR = '|';
-
     /**
      * Symbol between Name and Value between Pairs.
      */
     const PAIR_NAME_VALUE_SEPARATOR = '=';
-
     /**
      * Value that means all entities (e.g. websites, groups etc.)
      */
     const VALUE_ALL = 'all';
-
     /**
      * Data row scopes.
      */
     const SCOPE_DEFAULT = 1;
-
     const SCOPE_WEBSITE = 2;
-
     const SCOPE_STORE = 0;
-
     const SCOPE_NULL = -1;
-
     /**
      * Permanent column names.
      *
      * Names that begins with underscore is not an attribute. This name convention is for
      * to avoid interference with same attribute name.
      */
-
     /**
      * Column product store.
      */
     const COL_STORE = '_store';
-
     /**
      * Column product store view code.
      */
     const COL_STORE_VIEW_CODE = 'store_view_code';
-
     /**
      * Column website.
      */
     const COL_WEBSITE = 'website_code';
-
     /**
      * Column product attribute set.
      */
     const COL_ATTR_SET = '_attribute_set';
-
     /**
      * Column product type.
      */
     const COL_TYPE = 'product_type';
-
     /**
      * Column product category.
      */
     const COL_CATEGORY = 'categories';
-
     /**
      * Column product visibility.
      */
     const COL_VISIBILITY = 'visibility';
-
     /**
      * Column product sku.
      */
     const COL_SKU = 'sku';
-
     /**
      * Column product name.
      */
     const COL_NAME = 'name';
-
     /**
      * Column product website.
      */
     const COL_PRODUCT_WEBSITES = '_product_websites';
-
     /**
      * Media gallery attribute code.
      */
     const MEDIA_GALLERY_ATTRIBUTE_CODE = 'media_gallery';
-
     /**
      * Column media image.
      */
     const COL_MEDIA_IMAGE = '_media_image';
-
     /**
      * Inventory use config.
      */
     const INVENTORY_USE_CONFIG = 'Use Config';
-
     /**
      * Inventory use config prefix.
      */
     const INVENTORY_USE_CONFIG_PREFIX = 'use_config_';
-
     /**
      * Url key attribute code
      */
     const URL_KEY = 'url_key';
-
     /**
      * Attribute cache
      *
      * @var array
      */
     protected $_attributeCache = [];
-
     /**
      * Pairs of attribute set ID-to-name.
      *
      * @var array
      */
     protected $_attrSetIdToName = [];
-
     /**
      * Pairs of attribute set name-to-ID.
      *
      * @var array
      */
     protected $_attrSetNameToId = [];
-
     /**
      * @var string
      */
     protected $mediaGalleryTableName;
-
     /**
      * @var string
      */
@@ -183,12 +149,10 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @var string
      */
     protected $mediaGalleryEntityToValueTableName;
-
     /**
      * @var string
      */
     protected $productEntityTableName;
-
     /**
      * Attributes with index (not label) value.
      *
@@ -198,7 +162,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         'status',
         'tax_class_id',
     ];
-
     /**
      * Links attribute name-to-link type ID.
      *
@@ -209,7 +172,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         '_crosssell_' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL,
         '_upsell_' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL,
     ];
-
     /**
      * Attributes codes which shows as date
      *
@@ -223,21 +185,18 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         'custom_design_from',
         'custom_design_to'
     ];
-
     /**
      * Need to log in import history
      *
      * @var bool
      */
     protected $logInHistory = true;
-
     /**
      * Attribute id for product images storage.
      *
      * @var array
      */
     protected $_mediaGalleryAttributeId = null;
-
     /**
      * Validation failure message template definitions
      *
@@ -279,7 +238,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         ValidatorInterface::ERROR_INVALID_WEIGHT => 'Product weight is invalid',
         ValidatorInterface::ERROR_DUPLICATE_URL_KEY => 'Url key: \'%s\' was already generated for an item with the SKU: \'%s\'. You need to specify the unique URL key manually'
     ];
-
     /**
      * Map between import file fields and system fields/attributes.
      *
@@ -319,7 +277,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         '_upsell_position' => 'upsell_position',
         'meta_keyword' => 'meta_keywords',
     ];
-
     /**
      * Existing products SKU-related information in form of array:
      *
@@ -333,7 +290,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @var array
      */
     protected $_oldSku = [];
-
     /**
      * Column names that holds values with particular meaning.
      *
@@ -377,7 +333,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         '_media_position',
         '_media_is_disabled',
     ];
-
     /**
      * @var array
      */
@@ -405,252 +360,205 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         'stock_status_changed_auto' => 0,
         'is_decimal_divided' => 0,
     ];
-
     /**
      * Column names that holds images files names
      *
      * @var string[]
      */
     protected $_imagesArrayKeys = ['_media_image', 'image', 'small_image', 'thumbnail', 'swatch_image'];
-
     /**
      * Permanent entity columns.
      *
      * @var string[]
      */
     protected $_permanentAttributes = [self::COL_SKU];
-
     /**
      * Array of supported product types as keys with appropriate model object as value.
      *
      * @var \Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType[]
      */
     protected $_productTypeModels = [];
-
     /**
      * Media files uploader
      *
      * @var \Magento\CatalogImportExport\Model\Import\Uploader
      */
     protected $_fileUploader;
-
     /**
      * Import entity which provide import of product custom options
      *
      * @var \Magento\CatalogImportExport\Model\Import\Product\Option
      */
     protected $_optionEntity;
-
     /**
      * Catalog data
      *
      * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogData = null;
-
     /**
      * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
     protected $stockRegistry;
-
     /**
      * @var \Magento\CatalogInventory\Api\StockConfigurationInterface
      */
     protected $stockConfiguration;
-
     /**
      * @var \Magento\CatalogInventory\Model\Spi\StockStateProviderInterface
      */
     protected $stockStateProvider;
-
     /**
      * Core event manager proxy
      *
      * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
-
     /**
      * @var \Magento\ImportExport\Model\Import\Config
      */
     protected $_importConfig;
-
     /**
      * @var \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModelFactory
      */
     protected $_resourceFactory;
-
     /**
      * @var \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModel
      */
     protected $_resource;
-
     /**
      * @var \Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\CollectionFactory
      */
     protected $_setColFactory;
-
     /**
      * @var \Magento\CatalogImportExport\Model\Import\Product\Type\Factory
      */
     protected $_productTypeFactory;
-
     /**
      * @var \Magento\Catalog\Model\ResourceModel\Product\LinkFactory
      */
     protected $_linkFactory;
-
     /**
      * @var \Magento\CatalogImportExport\Model\Import\Proxy\ProductFactory
      */
     protected $_proxyProdFactory;
-
     /**
      * @var \Magento\CatalogImportExport\Model\Import\UploaderFactory
      */
     protected $_uploaderFactory;
-
     /**
      * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_mediaDirectory;
-
     /**
      * @var \Magento\CatalogInventory\Model\ResourceModel\Stock\ItemFactory
      */
     protected $_stockResItemFac;
-
     /**
      * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
-
     /**
      * @var DateTime
      */
     protected $dateTime;
-
     /**
      * @var \Magento\Framework\Indexer\IndexerRegistry
      */
     protected $indexerRegistry;
-
     /**
      * @var Product\StoreResolver
      */
     protected $storeResolver;
-
     /**
      * @var Product\SkuProcessor
      */
     protected $skuProcessor;
-
     /**
      * @var Product\CategoryProcessor
      */
     protected $categoryProcessor;
-
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
     protected $scopeConfig;
-
     /** @var \Magento\Catalog\Model\Product\Url */
     protected $productUrl;
-
     /** @var array */
     protected $websitesCache = [];
-
     /** @var array */
     protected $categoriesCache = [];
-
     /** @var array */
     protected $productUrlSuffix = [];
-
     /**
      * @var array
      * @deprecated
      */
     protected $productUrlKeys = [];
-
     /**
      * Instance of product tax class processor.
      *
      * @var Product\TaxClassProcessor
      */
     protected $taxClassProcessor;
-
     /**
      * @var Product\Validator
      */
     protected $validator;
-
     /**
      * Array of validated rows.
      *
      * @var array
      */
     protected $validatedRows;
-
     /**
      * @var \Psr\Log\LoggerInterface
      */
     private $_logger;
-
     /**
      * {@inheritdoc}
      */
     protected $masterAttributeCode = 'sku';
-
     /**
      * @var ObjectRelationProcessor
      */
     protected $objectRelationProcessor;
-
     /**
      * @var TransactionManagerInterface
      */
     protected $transactionManager;
-
     /**
      * Flag for replace operation.
      *
      * @var null
      */
     protected $_replaceFlag = null;
-
     /**
      * Flag for replace operation.
      *
      * @var null
      */
     protected $cachedImages = null;
-
     /** @var array */
     protected $urlKeys = [];
-
     /** @var array */
     protected $rowNumbers = [];
-
     /**
      * Product entity link field
      *
      * @var string
      */
     private $productEntityLinkField;
-
     /**
      * Product entity identifier field
      *
      * @var string
      */
     private $productEntityIdentifierField;
-
     /**
      * Escaped separator value for regular expression.
      * The value is based on PSEUDO_MULTI_LINE_SEPARATOR constant.
      * @var string
      */
     private $multiLineSeparatorForRegexp;
-
     /**
      * @param \Magento\Framework\Json\Helper\Data $jsonHelper
      * @param \Magento\ImportExport\Helper\Data $importExportData
@@ -776,13 +684,11 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         ) ? $data['option_entity'] : $optionFactory->create(
             ['data' => ['product_entity' => $this]]
         );
-
         $this->_initAttributeSets()
             ->_initTypeModels()
             ->_initSkus();
         $this->validator->init($this);
     }
-
     /**
      * Check one attribute. Can be overridden in child.
      *
@@ -802,7 +708,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return true;
     }
-
     /**
      *
      * Multiple value separator getter.
@@ -815,7 +720,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return Import::DEFAULT_GLOBAL_MULTI_VALUE_SEPARATOR;
     }
-
     /**
      * Retrieve instance of product custom options import entity
      *
@@ -825,7 +729,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return $this->_optionEntity;
     }
-
     /**
      * Retrieve id of media gallery attribute.
      *
@@ -840,7 +743,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this->_mediaGalleryAttributeId;
     }
-
     /**
      * @param string $name
      * @return Product\Type\AbstractType
@@ -852,7 +754,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return null;
     }
-
     /**
      * Set import parameters
      *
@@ -863,10 +764,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         parent::setParameters($params);
         $this->getOptionEntity()->setParameters($params);
-
         return $this;
     }
-
     /**
      * Delete products for replacement.
      *
@@ -879,10 +778,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             ['behavior' => Import::BEHAVIOR_DELETE]
         ));
         $this->_deleteProducts();
-
         return $this;
     }
-
     /**
      * Delete products.
      *
@@ -892,10 +789,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected function _deleteProducts()
     {
         $productEntityTable = $this->_resourceFactory->create()->getEntityTable();
-
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $idsToDelete = [];
-
             foreach ($bunch as $rowNum => $rowData) {
                 if ($this->validateRow($rowData, $rowNum) && self::SCOPE_DEFAULT == $this->getRowScope($rowData)) {
                     $idsToDelete[] = $this->_oldSku[$rowData[self::COL_SKU]]['entity_id'];
@@ -930,7 +825,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this;
     }
-
     /**
      * Create Product entity from raw data.
      *
@@ -952,7 +846,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_eventManager->dispatch('catalog_product_import_finish_before', ['adapter' => $this]);
         return true;
     }
-
     /**
      * Replace imported products.
      *
@@ -968,10 +861,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             ['behavior' => Import::BEHAVIOR_APPEND]
         ));
         $this->_saveProductsData();
-
         return $this;
     }
-
     /**
      * Save products data.
      *
@@ -989,10 +880,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             $this->getOptionEntity()->clearProductsSkuToId();
         }
         $this->getOptionEntity()->importData();
-
         return $this;
     }
-
     /**
      * Initialize attribute sets code-to-id pairs.
      *
@@ -1006,7 +895,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this;
     }
-
     /**
      * Initialize existent product SKUs.
      *
@@ -1018,7 +906,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_oldSku = $this->skuProcessor->getOldSkus();
         return $this;
     }
-
     /**
      * Initialize product type models.
      *
@@ -1053,10 +940,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_initErrorTemplates();
         // remove doubles
         $this->_specialAttributes = array_unique($this->_specialAttributes);
-
         return $this;
     }
-
     /**
      * Initialize Product error templates
      */
@@ -1066,7 +951,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             $this->addMessageTemplate($errorCode, $template);
         }
     }
-
     /**
      * Set valid attribute set and product type to rows with all scopes
      * to ensure that existing products doesn't changed.
@@ -1077,26 +961,19 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected function _prepareRowForDb(array $rowData)
     {
         $rowData = $this->_customFieldsMapping($rowData);
-
         $rowData = parent::_prepareRowForDb($rowData);
-
         static $lastSku = null;
-
         if (Import::BEHAVIOR_DELETE == $this->getBehavior()) {
             return $rowData;
         }
-
         $lastSku = $rowData[self::COL_SKU];
-
         if (isset($this->_oldSku[$lastSku])) {
             $newSku = $this->skuProcessor->getNewSku($lastSku);
             $rowData[self::COL_ATTR_SET] = $newSku['attr_set_code'];
             $rowData[self::COL_TYPE] = $newSku['type_id'];
         }
-
         return $rowData;
     }
-
     /**
      * Gather and save information about product links.
      * Must be called after ALL products saving done.
@@ -1112,7 +989,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $mainTable = $resource->getMainTable();
         $positionAttrId = [];
         $nextLinkId = $this->_resourceHelper->getNextAutoincrement($mainTable);
-
         // pre-load 'position' attributes ID for each link type once
         foreach ($this->_linkNameToId as $linkName => $linkId) {
             $select = $this->_connection->select()->from(
@@ -1128,14 +1004,11 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             $productIds = [];
             $linkRows = [];
             $positionRows = [];
-
             foreach ($bunch as $rowNum => $rowData) {
                 if (!$this->isRowAllowedToImport($rowData, $rowNum)) {
                     continue;
                 }
-
                 $sku = $rowData[self::COL_SKU];
-
                 $productId = $this->skuProcessor->getNewSku($sku)[$this->getProductEntityLinkField()];
                 $productLinkKeys = [];
                 $select = $this->_connection->select()->from(
@@ -1170,7 +1043,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                                 } else {
                                     $linkedId = $this->_oldSku[$linkedSku]['entity_id'];
                                 }
-
                                 if ($linkedId == null) {
                                     // Import file links to a SKU which is skipped for some reason,
                                     // which leads to a "NULL"
@@ -1189,7 +1061,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                                     );
                                     continue;
                                 }
-
                                 $linkKey = "{$productId}-{$linkedId}-{$linkId}";
                                 if (empty($productLinkKeys[$linkKey])) {
                                     $productLinkKeys[$linkKey] = $nextLinkId;
@@ -1234,7 +1105,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this;
     }
-
     /**
      * Save product attributes.
      *
@@ -1249,10 +1119,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $linkId = $this->_connection->fetchOne(
                     $this->_connection->select()
                         ->from($this->getResource()->getTable('catalog_product_entity'))
-                        ->where('sku = ?', $sku)
+                        ->where('sku = ?', (string)$sku)
                         ->columns($this->getProductEntityLinkField())
                 );
-
                 foreach ($attributes as $attributeId => $storeValues) {
                     foreach ($storeValues as $storeId => $storeValue) {
                         $tableData[] = [
@@ -1268,7 +1137,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this;
     }
-
     /**
      * Save product categories.
      *
@@ -1278,18 +1146,15 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected function _saveProductCategories(array $categoriesData)
     {
         static $tableName = null;
-
         if (!$tableName) {
             $tableName = $this->_resourceFactory->create()->getProductCategoryTable();
         }
         if ($categoriesData) {
             $categoriesIn = [];
             $delProductId = [];
-
             foreach ($categoriesData as $delSku => $categories) {
                 $productId = $this->skuProcessor->getNewSku($delSku)['entity_id'];
                 $delProductId[] = $productId;
-
                 foreach (array_keys($categories) as $categoryId) {
                     $categoriesIn[] = ['product_id' => $productId, 'category_id' => $categoryId, 'position' => 1];
                 }
@@ -1306,7 +1171,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this;
     }
-
     /**
      * Update and insert data in entity table.
      *
@@ -1319,7 +1183,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         static $entityTable = null;
         $this->countItemsCreated += count($entityRowsIn);
         $this->countItemsUpdated += count($entityRowsUp);
-
         if (!$entityTable) {
             $entityTable = $this->_resourceFactory->create()->getEntityTable();
         }
@@ -1328,7 +1191,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         if ($entityRowsIn) {
             $this->_connection->insertMultiple($entityTable, $entityRowsIn);
-
             $select = $this->_connection->select()->from(
                 $entityTable,
                 array_merge($this->getNewSkuFieldsForSelect(), $this->getOldSkuFieldsForSelect())
@@ -1344,13 +1206,10 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $this->skuProcessor->setNewSkuData($sku, $key, $value);
                 }
             }
-
             $this->updateOldSku($newProducts);
         }
-
         return $this;
     }
-
     /**
      * Return additional data, needed to select.
      * @return array
@@ -1359,7 +1218,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return ['type_id', 'attribute_set_id'];
     }
-
     /**
      * Adds newly created products to _oldSku
      * @param array $newProducts
@@ -1379,10 +1237,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $this->getProductEntityLinkField() => $info[$this->getProductEntityLinkField()],
             ];
         }
-
         $this->_oldSku = array_replace($this->_oldSku, $oldSkus);
     }
-
     /**
      * Get new SKU fields for select
      *
@@ -1396,7 +1252,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $fields;
     }
-
     /**
      * Init media gallery resources
      * @return void
@@ -1414,7 +1269,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             );
         }
     }
-
     /**
      * Get existing images for current bunch
      *
@@ -1427,7 +1281,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         if ($this->getErrorAggregator()->hasToBeTerminated()) {
             return $result;
         }
-
         $this->initMediaGalleryResources();
         $productSKUs = array_map('strval', array_column($bunch, self::COL_SKU));
         $select = $this->_connection->select()->from(
@@ -1459,14 +1312,11 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             'pe.sku IN (?)',
             $productSKUs
         );
-
         foreach ($this->_connection->fetchAll($select) as $image) {
             $result[$image['sku']][$image['value']] = $image;
         }
-
         return $result;
     }
-
     /**
      * @param array $rowData
      * @return array
@@ -1483,20 +1333,16 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                         explode($this->getMultipleValueSeparator(), $rowData[$column])
                     )
                 );
-
                 if (!empty($rowData[$column . '_label'])) {
                     $labels[$column] = $this->parseMultipleValues($rowData[$column . '_label']);
-
                     if (count($labels[$column]) > count($images[$column])) {
                         $labels[$column] = array_slice($labels[$column], 0, count($images[$column]));
                     }
                 }
             }
         }
-
         return [$images, $labels];
     }
-
     /**
      * Gather and save information about product entities.
      *
@@ -1511,7 +1357,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $priceIsGlobal = $this->_catalogData->isPriceGlobal();
         $productLimit = null;
         $productsQty = null;
-
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $entityRowsIn = [];
             $entityRowsUp = [];
@@ -1525,7 +1370,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             $previousType = null;
             $prevAttributeSet = null;
             $existingImages = $this->getExistingImages($bunch);
-
             foreach ($bunch as $rowNum => $rowData) {
                 if (!$this->validateRow($rowData, $rowNum)) {
                     continue;
@@ -1535,13 +1379,10 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     continue;
                 }
                 $rowScope = $this->getRowScope($rowData);
-
                 if (empty($rowData[self::URL_KEY])) {
                     $rowData[self::URL_KEY] = $this->getUrlKey($rowData);
                 }
-
                 $rowSku = $rowData[self::COL_SKU];
-
                 if (null === $rowSku) {
                     $this->getErrorAggregator()->addRowToSkip($rowNum);
                     continue;
@@ -1551,7 +1392,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $rowData['attribute_set_id'] = $this->skuProcessor->getNewSku($rowSku)['attr_set_id'];
                     $rowData[self::COL_ATTR_SET] = $this->skuProcessor->getNewSku($rowSku)['attr_set_code'];
                 }
-
                 // 1. Entity phase
                 if (isset($this->_oldSku[$rowSku])) {
                     // existing row
@@ -1577,7 +1417,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                         continue;
                     }
                 }
-
                 if (!array_key_exists($rowSku, $this->websitesCache)) {
                     $this->websitesCache[$rowSku] = [];
                 }
@@ -1589,7 +1428,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                         $this->websitesCache[$rowSku][$websiteId] = true;
                     }
                 }
-
                 // 3. Categories phase
                 if (!array_key_exists($rowSku, $this->categoriesCache)) {
                     $this->categoriesCache[$rowSku] = [];
@@ -1600,7 +1438,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $this->categoriesCache[$rowSku][$id] = true;
                 }
                 unset($rowData['rowNum']);
-
                 // 4.1. Tier prices phase
                 if (!empty($rowData['_tier_price_website'])) {
                     $tierPrices[$rowSku][] = [
@@ -1613,11 +1450,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                         $priceIsGlobal ? 0 : $this->storeResolver->getWebsiteCodeToId($rowData['_tier_price_website']),
                     ];
                 }
-
                 if (!$this->validateRow($rowData, $rowNum)) {
                     continue;
                 }
-
                 // 5. Media gallery phase
                 $disabledImages = [];
                 list($rowImages, $rowLabels) = $this->getImagesFromRow($rowData);
@@ -1645,11 +1480,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                         } else {
                             $uploadedFile = $uploadedImages[$columnImage];
                         }
-
                         if ($uploadedFile && $column !== self::COL_MEDIA_IMAGE) {
                             $rowData[$column] = $uploadedFile;
                         }
-
                         if ($uploadedFile && !isset($mediaGallery[$rowSku][$uploadedFile])) {
                             if (isset($existingImages[$rowSku][$uploadedFile])) {
                                 if (isset($rowLabels[$column][$position])
@@ -1675,7 +1508,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                         }
                     }
                 }
-
                 // 6. Attributes phase
                 $rowStore = (self::SCOPE_STORE == $rowScope)
                     ? $this->storeResolver->getStoreCodeToId($rowData[self::COL_STORE])
@@ -1699,28 +1531,23 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                         continue;
                     }
                 }
-
                 $productTypeModel = $this->_productTypeModels[$productType];
                 if (!empty($rowData['tax_class_name'])) {
                     $rowData['tax_class_id'] =
                         $this->taxClassProcessor->upsertTaxClass($rowData['tax_class_name'], $productTypeModel);
                 }
-
                 if ($this->getBehavior() == Import::BEHAVIOR_APPEND ||
                     empty($rowData[self::COL_SKU])
                 ) {
                     $rowData = $productTypeModel->clearEmptyData($rowData);
                 }
-
                 $rowData = $productTypeModel->prepareAttributesWithDefaultValueForSave(
                     $rowData,
                     !isset($this->_oldSku[$rowSku])
                 );
                 $product = $this->_proxyProdFactory->create(['data' => $rowData]);
-
                 foreach ($rowData as $attrCode => $attrValue) {
                     $attribute = $this->retrieveAttributeByCode($attrCode);
-
                     if ('multiselect' != $attribute->getFrontendInput() && self::SCOPE_NULL == $rowScope) {
                         // skip attribute processing for SCOPE_NULL rows
                         continue;
@@ -1729,7 +1556,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $backModel = $attribute->getBackendModel();
                     $attrTable = $attribute->getBackend()->getTable();
                     $storeIds = [0];
-
                     if (
                         'datetime' == $attribute->getBackendType()
                         && (
@@ -1769,13 +1595,11 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $attribute->setBackendModel($backModel);
                 }
             }
-
             foreach ($bunch as $rowNum => $rowData) {
                 if ($this->getErrorAggregator()->isRowInvalid($rowNum)) {
                     unset($bunch[$rowNum]);
                 }
             }
-
             $this->saveProductEntity(
                 $entityRowsIn,
                 $entityRowsUp
@@ -1792,16 +1616,13 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             )->updateMediaGalleryLabels(
                 $labelsForUpdate
             );
-
             $this->_eventManager->dispatch(
                 'catalog_product_import_bunch_save_after',
                 ['adapter' => $this, 'bunch' => $bunch]
             );
         }
-
         return $this;
     }
-
     /**
      * @param array $rowData
      * @return array
@@ -1828,7 +1649,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $categoryIds;
     }
-
     /**
      * @param string $productSku
      * @return array
@@ -1837,7 +1657,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return array_keys($this->websitesCache[$productSku]);
     }
-
     /**
      * @param string $productSku
      * @return array
@@ -1846,7 +1665,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return array_keys($this->categoriesCache[$productSku]);
     }
-
     /**
      * @param string $storeCode
      * @return array|int|null|string
@@ -1858,7 +1676,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this->storeResolver->getStoreCodeToId($storeCode);
     }
-
     /**
      * Save product tier prices.
      *
@@ -1868,18 +1685,15 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected function _saveProductTierPrices(array $tierPriceData)
     {
         static $tableName = null;
-
         if (!$tableName) {
             $tableName = $this->_resourceFactory->create()->getTable('catalog_product_entity_tier_price');
         }
         if ($tierPriceData) {
             $tierPriceIn = [];
             $delProductId = [];
-
             foreach ($tierPriceData as $delSku => $tierPriceRows) {
                 $productId = $this->skuProcessor->getNewSku($delSku)[$this->getProductEntityLinkField()];
                 $delProductId[] = $productId;
-
                 foreach ($tierPriceRows as $row) {
                     $row[$this->getProductEntityLinkField()] = $productId;
                     $tierPriceIn[] = $row;
@@ -1897,7 +1711,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this;
     }
-
     /**
      * Returns an object for upload a media files
      *
@@ -1908,20 +1721,15 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         if (is_null($this->_fileUploader)) {
             $this->_fileUploader = $this->_uploaderFactory->create();
-
             $this->_fileUploader->init();
-
             $dirConfig = DirectoryList::getDefaultConfig();
             $dirAddon = $dirConfig[DirectoryList::MEDIA][DirectoryList::PATH];
-
             $DS = DIRECTORY_SEPARATOR;
-
             if (!empty($this->_parameters[Import::FIELD_NAME_IMG_FILE_DIR])) {
                 $tmpPath = $this->_parameters[Import::FIELD_NAME_IMG_FILE_DIR];
             } else {
                 $tmpPath = $dirAddon . $DS . $this->_mediaDirectory->getRelativePath('import');
             }
-
             if (!$this->_fileUploader->setTmpDir($tmpPath)) {
                 throw new \Magento\Framework\Exception\LocalizedException(
                     __('File directory \'%1\' is not readable.', $tmpPath)
@@ -1929,7 +1737,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             }
             $destinationDir = "catalog/product";
             $destinationPath = $dirAddon . $DS . $this->_mediaDirectory->getRelativePath($destinationDir);
-
             $this->_mediaDirectory->create($destinationPath);
             if (!$this->_fileUploader->setDestDir($destinationPath)) {
                 throw new \Magento\Framework\Exception\LocalizedException(
@@ -1939,7 +1746,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this->_fileUploader;
     }
-
     /**
      * @return Uploader
      * @throws \Magento\Framework\Exception\LocalizedException
@@ -1948,7 +1754,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return $this->_getUploader();
     }
-
     /**
      * Uploading files into the "catalog/product" media folder.
      * Return a new file name if the same file is already exists.
@@ -1965,7 +1770,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             return '';
         }
     }
-
     /**
      * Save product media gallery.
      *
@@ -2012,7 +1816,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         if (array_keys($oldMediaValues)) {
             $newMediaSelect->where('value_id NOT IN (?)', array_keys($oldMediaValues));
         }
-
         $dataForSkinnyTable = [];
         $newMediaValues = $this->_connection->fetchAssoc($newMediaSelect);
         foreach ($mediaGalleryData as $productSku => $mediaGalleryRows) {
@@ -2062,7 +1865,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this;
     }
-
     /**
      * Save product websites.
      *
@@ -2072,18 +1874,15 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected function _saveProductWebsites(array $websiteData)
     {
         static $tableName = null;
-
         if (!$tableName) {
             $tableName = $this->_resourceFactory->create()->getProductWebsiteTable();
         }
         if ($websiteData) {
             $websitesData = [];
             $delProductId = [];
-
             foreach ($websiteData as $delSku => $websites) {
                 $productId = $this->skuProcessor->getNewSku($delSku)['entity_id'];
                 $delProductId[] = $productId;
-
                 foreach (array_keys($websites) as $websiteId) {
                     $websitesData[] = ['product_id' => $productId, 'website_id' => $websiteId];
                 }
@@ -2100,7 +1899,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this;
     }
-
     /**
      * Stock item saving.
      *
@@ -2120,24 +1918,19 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 if (!$this->isRowAllowedToImport($rowData, $rowNum)) {
                     continue;
                 }
-
                 $row = [];
                 $row['product_id'] = $this->skuProcessor->getNewSku($rowData[self::COL_SKU])['entity_id'];
                 $productIdsToReindex[] = $row['product_id'];
-
                 $row['website_id'] = $this->stockConfiguration->getDefaultScopeId();
                 $row['stock_id'] = $this->stockRegistry->getStock($row['website_id'])->getStockId();
-
                 $stockItemDo = $this->stockRegistry->getStockItem($row['product_id'], $row['website_id']);
                 $existStockData = $stockItemDo->getData();
-
                 $row = array_merge(
                     $this->defaultStockData,
                     array_intersect_key($existStockData, $this->defaultStockData),
                     array_intersect_key($rowData, $this->defaultStockData),
                     $row
                 );
-
                 if ($this->stockConfiguration->isQty(
                     $this->skuProcessor->getNewSku($rowData[self::COL_SKU])['type_id']
                 )) {
@@ -2158,19 +1951,16 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $stockData[$rowData[self::COL_SKU]] = $row;
                 }
             }
-
             // Insert rows
             if (!empty($stockData)) {
                 $this->_connection->insertOnDuplicate($entityTable, array_values($stockData));
             }
-
             if ($productIdsToReindex) {
                 $indexer->reindexList($productIdsToReindex);
             }
         }
         return $this;
     }
-
     /**
      * Retrieve attribute by code
      *
@@ -2184,7 +1974,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this->_attributeCache[$attrCode];
     }
-
     /**
      * Attribute set ID-to-name pairs getter.
      *
@@ -2194,7 +1983,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return $this->_attrSetIdToName;
     }
-
     /**
      * DB connection getter.
      *
@@ -2204,7 +1992,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return $this->_connection;
     }
-
     /**
      * EAV entity type code getter.
      *
@@ -2215,7 +2002,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return 'catalog_product';
     }
-
     /**
      * New products SKU data.
      *
@@ -2226,7 +2012,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return $this->skuProcessor->getNewSku($sku);
     }
-
     /**
      * Get next bunch of validated rows.
      *
@@ -2236,7 +2021,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return $this->_dataSourceModel->getNextBunch();
     }
-
     /**
      * Existing products SKU getter.
      *
@@ -2246,7 +2030,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return $this->_oldSku;
     }
-
     /**
      * Retrieve Category Processor
      *
@@ -2256,7 +2039,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         return $this->categoryProcessor;
     }
-
     /**
      * Obtain scope of the row from row data.
      *
@@ -2270,7 +2052,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return self::SCOPE_STORE;
     }
-
     /**
      * Validate data row.
      *
@@ -2288,9 +2069,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             return !$this->getErrorAggregator()->isRowInvalid($rowNum);
         }
         $this->_validatedRows[$rowNum] = true;
-
         $rowScope = $this->getRowScope($rowData);
-
         // BEHAVIOR_DELETE and BEHAVIOR_REPLACE use specific validation logic
         if (Import::BEHAVIOR_REPLACE == $this->getBehavior()) {
             if (self::SCOPE_DEFAULT == $rowScope && !isset($this->_oldSku[$rowData[self::COL_SKU]])) {
@@ -2305,13 +2084,11 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             }
             return true;
         }
-
         if (!$this->validator->isValid($rowData)) {
             foreach ($this->validator->getMessages() as $message) {
                 $this->addRowError($message, $rowNum, $this->validator->getInvalidAttribute());
             }
         }
-
         $sku = $rowData[self::COL_SKU];
         if (null === $sku) {
             $this->addRowError(ValidatorInterface::ERROR_SKU_IS_EMPTY, $rowNum);
@@ -2322,12 +2099,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         ) {
             $this->addRowError(ValidatorInterface::ERROR_INVALID_STORE, $rowNum);
         }
-
         // SKU is specified, row is SCOPE_DEFAULT, new product block begins
         $this->_processedEntitiesCount++;
-
         $sku = $rowData[self::COL_SKU];
-
         if (isset($this->_oldSku[$sku]) && Import::BEHAVIOR_REPLACE !== $this->getBehavior()) {
             // can we get all necessary data from existent DB product?
             // check for supported type of existing product
@@ -2369,12 +2143,10 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $sku = false;
             }
         }
-
         if (!$this->getErrorAggregator()->isRowInvalid($rowNum)) {
             $newSku = $this->skuProcessor->getNewSku($sku);
             // set attribute set code into row data for followed attribute validation in type model
             $rowData[self::COL_ATTR_SET] = $newSku['attr_set_code'];
-
             /** @var \Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType $productTypeValidator */
             $productTypeValidator = $this->_productTypeModels[$newSku['type_id']];
             $rowAttributesValid = $productTypeValidator->isRowValid(
@@ -2389,7 +2161,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         // validate custom options
         $this->getOptionEntity()->validateRow($rowData, $rowNum);
-
         if ($this->isNeedToValidateUrlKey($rowData)) {
             $urlKey = $this->getUrlKey($rowData);
             $storeCodes = empty($rowData[self::COL_STORE_VIEW_CODE])
@@ -2421,7 +2192,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return !$this->getErrorAggregator()->isRowInvalid($rowNum);
     }
-
     /**
      * @param array $rowData
      * @return bool
@@ -2433,7 +2203,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             || $rowData[self::COL_VISIBILITY]
             !== (string)Visibility::getOptionArray()[Visibility::VISIBILITY_NOT_VISIBLE]);
     }
-
     /**
      * Prepare new SKU data
      *
@@ -2446,12 +2215,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         foreach ($this->_oldSku[$sku] as $key => $value) {
             $data[$key] = $value;
         }
-
         $data['attr_set_code'] = $this->_attrSetIdToName[$this->_oldSku[$sku]['attr_set_id']];
-
         return $data;
     }
-
     /**
      * Parse attributes names and values string to array.
      *
@@ -2467,7 +2233,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $rowData = array_merge($rowData, $this->parseAdditionalAttributes($rowData['additional_attributes']));
         return $rowData;
     }
-
     /**
      * Retrieves additional attributes in format:
      * [
@@ -2486,7 +2251,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             ? $this->parseAttributesWithoutWrappedValues($additionalAttributes)
             : $this->parseAttributesWithWrappedValues($additionalAttributes);
     }
-
     /**
      * Parses data and returns attributes in format:
      * [
@@ -2519,7 +2283,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $preparedAttributes;
     }
-
     /**
      * Parses data and returns attributes in format:
      * [
@@ -2554,7 +2317,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $attributes;
     }
-
     /**
      * Parse values of multiselect attributes depends on "Fields Enclosure" parameter
      *
@@ -2574,7 +2336,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return [$values];
     }
-
     /**
      * Retrieves escaped PSEUDO_MULTI_LINE_SEPARATOR if it is metacharacter for regular expression
      *
@@ -2589,7 +2350,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this->multiLineSeparatorForRegexp;
     }
-
     /**
      * Set values in use_config_ fields.
      *
@@ -2613,7 +2373,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $rowData = array_merge($rowData, $useConfigFields);
         return $rowData;
     }
-
     /**
      * Custom fields mapping for changed purposes of fields and field names.
      *
@@ -2628,9 +2387,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $rowData[$systemFieldName] = $rowData[$fileFieldName];
             }
         }
-
         $rowData = $this->_parseAdditionalAttributes($rowData);
-
         $rowData = $this->_setStockUseConfigFieldsValues($rowData);
         if (array_key_exists('status', $rowData)
             && $rowData['status'] != \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
@@ -2643,7 +2400,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $rowData;
     }
-
     /**
      * Validate data rows and save bunches to DB
      *
@@ -2653,7 +2409,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     {
         $source = $this->_getSource();
         $source->rewind();
-
         while ($source->valid()) {
             try {
                 $rowData = $source->current();
@@ -2663,18 +2418,14 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $source->next();
                 continue;
             }
-
             $rowData = $this->_customFieldsMapping($rowData);
-
             $this->validateRow($rowData, $source->key());
-
             $source->next();
         }
         $this->checkUrlKeyDuplicates();
         $this->getOptionEntity()->validateAmbiguousData();
         return parent::_saveValidatedBunches();
     }
-
     /**
      * Check that url_keys are not assigned to other products in DB
      *
@@ -2701,7 +2452,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             }
         }
     }
-
     /**
      * Retrieve product rewrite suffix for store
      *
@@ -2719,7 +2469,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this->productUrlSuffix[$storeId];
     }
-
     /**
      * @param array $rowData
      * @return string
@@ -2729,14 +2478,11 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         if (!empty($rowData[self::URL_KEY])) {
             return $rowData[self::URL_KEY];
         }
-
         if (!empty($rowData[self::COL_NAME])) {
             return $this->productUrl->formatUrlKey($rowData[self::COL_NAME]);
         }
-
         return '';
     }
-
     /**
      * @return Proxy\Product\ResourceModel
      */
@@ -2747,7 +2493,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this->_resource;
     }
-
     /**
      * Get product entity link field
      *
@@ -2762,7 +2507,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this->productEntityLinkField;
     }
-
     /**
      * Get product entity identifier field
      *
@@ -2777,7 +2521,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         }
         return $this->productEntityIdentifierField;
     }
-
     /**
      * Update media gallery labels
      *
@@ -2789,11 +2532,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         if (empty($labels)) {
             return;
         }
-
         $insertData = [];
         foreach ($labels as $label) {
             $imageData = $label['imageData'];
-
             if ($imageData['label'] === null) {
                 $insertData[] = [
                     'label' => $label['label'],
@@ -2815,7 +2556,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 );
             }
         }
-
         if (!empty($insertData)) {
             $this->_connection->insertMultiple(
                 $this->mediaGalleryValueTableName,
@@ -2823,7 +2563,6 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             );
         }
     }
-
     /**
      * Parse values from multiple attributes fields
      *
