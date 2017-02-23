@@ -7,6 +7,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
     protected $tss;
     protected $highlights;
     protected $features;
+    protected $inthebox;
     private $storeManager;
     public function execute()
     {
@@ -36,6 +37,14 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
                 $this->features = '';
             }
 
+        if (isset($_POST['in_the_box'])) {
+            $h = $_POST['in_the_box'];
+            $hs = json_encode($h);
+            $this->inthebox = $hs;
+        } else {
+            $this->inthebox = '';
+        }
+
         $storeId = $this->getRequest()->getParam('store', 0);
         $store = $this->getStoreManager()->getStore($storeId);
         $this->getStoreManager()->setCurrentStore($store->getCode());
@@ -61,6 +70,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\save
                 $product->setData('tech_specs', $this->tss);
                 $product->setData('highlights', $this->highlight);
                 $product->setData('features', $this->features);
+                $product->setData('in_the_box', $this->inthebox);
                 $product->save();
 
                 $this->handleImageRemoveError($data, $product->getId());

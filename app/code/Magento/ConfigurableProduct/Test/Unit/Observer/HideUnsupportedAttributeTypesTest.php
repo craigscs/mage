@@ -126,18 +126,18 @@ class HideUnsupportedAttributeTypesTest extends \PHPUnit_Framework_TestCase
             'testWithCustomTypes' => [
                 'supportedTypes' => ['select', 'custom_type', 'second_custom_type'],
                 'originalValues' => [
-                    $this->createFrontendInputValue('custom_type', 'CustomType'),
+                    $this->createFrontendInputValue('accessories', 'Accessories'),
                     $this->createFrontendInputValue('text2', 'Text2'),
                     $this->createFrontendInputValue('select', 'Select'),
                     $this->createFrontendInputValue('text', 'Text'),
-                    $this->createFrontendInputValue('second_custom_type', 'SecondCustomType'),
+                    $this->createFrontendInputValue('second_accessories', 'SecondAccessories'),
                     $this->createFrontendInputValue('multiselect', 'Multiselect'),
                     $this->createFrontendInputValue('text3', 'Text3'),
                 ],
                 'expectedValues' => [
-                    $this->createFrontendInputValue('custom_type', 'CustomType'),
+                    $this->createFrontendInputValue('accessories', 'Accessories'),
                     $this->createFrontendInputValue('select', 'Select'),
-                    $this->createFrontendInputValue('second_custom_type', 'SecondCustomType'),
+                    $this->createFrontendInputValue('second_accessories', 'SecondAccessories'),
                 ],
             ]
         ];
