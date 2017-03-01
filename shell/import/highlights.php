@@ -10,9 +10,19 @@ $state = $obj->get('Magento\Framework\App\State');
 $state->setAreaCode('adminhtml');
 
 $pr = $obj->create('Magento\Catalog\Model\ProductRepository');
-$file = fopen('shell/import/highlights.csv', 'r');
+$file = fopen('shell/import/csv/highlights.csv', 'r');
 $c = 0;
-while (($rowData = fgetcsv($file, 4096)) !== false)
+
+$file2 = fopen('shell/import/csv/links.csv', 'r');
+$links = array();
+while (($row = fgetcsv($file2, 4096)) !== false) {
+    if ($c == 0) {
+        $c++;
+        continue;
+    }
+    $links[$row[3]] = $row[2];
+}
+while (($row = fgetcsv($file, 4096)) !== false)
 {
     if ($c ==0) {
         $c++;
@@ -26,8 +36,15 @@ while (($rowData = fgetcsv($file, 4096)) !== false)
 }
 fclose($file);
 foreach ($productData as $sku => $value) {
-    $p = $pr->get($sku);
-    $product->setData("highlights", json_encode($value));
-    $p->getResource()->saveAttribute($p, 'highlights');
-    echo "SKU ".$sku." saved.";
+    try {
+        if (isset($links[$sku])) {
+            $sku = $links[$sku];
+        }
+        $p = $pr->get($sku);
+        $p->setData("highlights", json_encode($value));
+        $p->getResource()->saveAttribute($p, 'highlights');
+        printf("SKU " . $sku . " saved.\n");
+    } catch (\Exception $e) {
+        printf($e->getMessage()."\n");
+    }
 }
