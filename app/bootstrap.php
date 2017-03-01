@@ -1,23 +1,13 @@
 <?php
 /**
-<<<<<<< HEAD
- * Copyright © 2016 Magento. All rights reserved.
-=======
  * Copyright © 2013-2017 Magento, Inc. All rights reserved.
->>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
  * See COPYING.txt for license details.
  */
-
 /**
  * Environment initialization
  */
 error_reporting(E_ALL);
-<<<<<<< HEAD
-ini_set('display_errors', 1);
-=======
 #ini_set('display_errors', 1);
->>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
-
 /* PHP version validation */
 if (!defined('PHP_VERSION_ID') || !(PHP_VERSION_ID >= 50605 && PHP_VERSION_ID < 50700 || PHP_VERSION_ID === 70002 || PHP_VERSION_ID === 70004 || PHP_VERSION_ID >= 70006)) {
     if (PHP_SAPI == 'cli') {
@@ -34,15 +24,12 @@ HTML;
     }
     exit(1);
 }
-
 require_once __DIR__ . '/autoload.php';
 require_once BP . '/app/functions.php';
-
 /* Custom umask value may be provided in optional mage_umask file in root */
 $umaskFile = BP . '/magento_umask';
 $mask = file_exists($umaskFile) ? octdec(file_get_contents($umaskFile)) : 002;
 umask($mask);
-
 if (empty($_SERVER['ENABLE_IIS_REWRITES']) || ($_SERVER['ENABLE_IIS_REWRITES'] != 1)) {
     /*
      * Unset headers used by IIS URL rewrites.
@@ -53,7 +40,6 @@ if (empty($_SERVER['ENABLE_IIS_REWRITES']) || ($_SERVER['ENABLE_IIS_REWRITES'] !
     unset($_SERVER['UNENCODED_URL']);
     unset($_SERVER['ORIG_PATH_INFO']);
 }
-
 if (!empty($_SERVER['MAGE_PROFILER'])
     && isset($_SERVER['HTTP_ACCEPT'])
     && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false
@@ -64,12 +50,7 @@ if (!empty($_SERVER['MAGE_PROFILER'])
         !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'
     );
 }
-
 date_default_timezone_set('UTC');
-<<<<<<< HEAD
-=======
-
 /*  Adjustment of precision value for several versions of PHP */
 ini_set('precision', 17);
 ini_set('serialize_precision', 17);
->>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
