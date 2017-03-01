@@ -108,7 +108,11 @@ location /static/ {
         expires +1y;
 
         if (!-f $request_filename) {
+<<<<<<< HEAD
             rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
+=======
+            rewrite ^/static/?(.*)$ /static.php?resource=$1 last;
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
         }
     }
     location ~* \.(zip|gz|gzip|bz2|csv|xml)$ {
@@ -117,11 +121,19 @@ location /static/ {
         expires    off;
 
         if (!-f $request_filename) {
+<<<<<<< HEAD
            rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
         }
     }
     if (!-f $request_filename) {
         rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
+=======
+           rewrite ^/static/?(.*)$ /static.php?resource=$1 last;
+        }
+    }
+    if (!-f $request_filename) {
+        rewrite ^/static/?(.*)$ /static.php?resource=$1 last;
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
     }
     add_header X-Frame-Options "SAMEORIGIN";
 }

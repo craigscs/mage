@@ -1,7 +1,11 @@
 #!/usr/bin/env php
 <?php
 /**
+<<<<<<< HEAD
  * Copyright © 2016 Magento. All rights reserved.
+=======
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
  * See COPYING.txt for license details.
  */
 
@@ -28,5 +32,9 @@ try {
         echo "\n\n";
         $e = $e->getPrevious();
     }
+<<<<<<< HEAD
     exit(Cli::RETURN_FAILURE);
+=======
+    exit(Magento\Framework\Console\Cli::RETURN_FAILURE);
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
 }

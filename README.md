@@ -58,6 +58,14 @@ After verifying your prerequisites, perform the following tasks in order to prep
 	*	<a href="http://devdocs.magento.com/guides/v2.0/install-gde/install/install-web.html">Install Magento software using the web interface</a>
 	*	<a href="http://devdocs.magento.com/guides/v2.0/install-gde/install/install-cli.html">Install Magento software using the command line</a>
 2.	<a href="http://devdocs.magento.com/guides/v2.0/install-gde/install/verify.html">Verify the installation</a>
+## Magento system requirements
+[Magento system requirements](http://devdocs.magento.com/magento-system-requirements.html)
+
+## Install Magento
+To install Magento, see either:
+
+*	[Magento DevBox](https://magento.com/tech-resources/download), the easiest way to get started with Magento.
+*	[Installation guide](http://devdocs.magento.com/guides/v2.0/install-gde/bk-install-guide.html)
 
 <h2>Contributing to the Magento 2 code base</h2>
 Contributions can take the form of new components or features, changes to existing features, tests, documentation (such as developer guides, user guides, examples, or specifications), bug fixes, optimizations, or just good suggestions.

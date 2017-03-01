@@ -1,6 +1,10 @@
 <?php
 /**
+<<<<<<< HEAD
  * Copyright © 2016 Magento. All rights reserved.
+=======
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
  * See COPYING.txt for license details.
  */
 
@@ -8,7 +12,11 @@
  * Environment initialization
  */
 error_reporting(E_ALL);
+<<<<<<< HEAD
 ini_set('display_errors', 1);
+=======
+#ini_set('display_errors', 1);
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
 
 /* PHP version validation */
 if (!defined('PHP_VERSION_ID') || !(PHP_VERSION_ID >= 50605 && PHP_VERSION_ID < 50700 || PHP_VERSION_ID === 70002 || PHP_VERSION_ID === 70004 || PHP_VERSION_ID >= 70006)) {
@@ -58,3 +66,10 @@ if (!empty($_SERVER['MAGE_PROFILER'])
 }
 
 date_default_timezone_set('UTC');
+<<<<<<< HEAD
+=======
+
+/*  Adjustment of precision value for several versions of PHP */
+ini_set('precision', 17);
+ini_set('serialize_precision', 17);
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60

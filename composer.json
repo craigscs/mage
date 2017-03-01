@@ -31,24 +31,42 @@
         "zendframework/zend-serializer": "~2.4.6",
         "zendframework/zend-log": "~2.4.6",
         "zendframework/zend-http": "~2.4.6",
+<<<<<<< HEAD
+=======
+        "zendframework/zend-db": "~2.4.6",
+        "zendframework/zend-captcha": "~2.4.6",
+        "zendframework/zend-session": "~2.4.6",
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
         "magento/zendframework1": "~1.12.16",
         "colinmollenhour/credis": "1.6",
         "colinmollenhour/php-redis-session-abstract": "1.2",
         "colinmollenhour/cache-backend-redis": "1.9",
         "colinmollenhour/cache-backend-file": "1.4",
         "composer/composer": "1.0.0-beta1",
+<<<<<<< HEAD
         "monolog/monolog": "1.16.0",
+=======
+        "monolog/monolog": "^1.17",
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
         "oyejorge/less.php": "~1.7.0",
         "pelago/emogrifier": "0.1.1",
         "tubalmartin/cssmin": "2.4.8-p4",
         "magento/magento-composer-installer": ">=0.1.11",
         "braintree/braintree_php": "3.7.0",
+<<<<<<< HEAD
         "symfony/console": "~2.3 <2.7",
+=======
+        "symfony/console": "~2.3, !=2.7.0",
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
         "symfony/event-dispatcher": "~2.1",
         "symfony/process": "~2.1",
         "phpseclib/phpseclib": "2.0.*",
         "tedivm/jshrink": "~1.0.1",
+<<<<<<< HEAD
         "magento/composer": "~1.0.0",
+=======
+        "magento/composer": "~1.1.0",
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
         "lib-libxml": "*",
         "ext-ctype": "*",
         "ext-gd": "*",
@@ -72,7 +90,11 @@
         "phpunit/phpunit": "4.1.0",
         "squizlabs/php_codesniffer": "1.5.3",
         "phpmd/phpmd": "@stable",
+<<<<<<< HEAD
         "pdepend/pdepend": "2.2.2",
+=======
+        "pdepend/pdepend": "2.4.0",
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
         "friendsofphp/php-cs-fixer": "~1.2",
         "lusitanian/oauth": "~0.3 <=0.7.0",
         "sebastian/phpcpd": "2.0.0"
@@ -81,6 +103,10 @@
         "magento/module-marketplace": "100.2.0-dev",
         "magento/module-admin-notification": "100.2.0-dev",
         "magento/module-advanced-pricing-import-export": "100.2.0-dev",
+<<<<<<< HEAD
+=======
+        "magento/module-analytics": "100.2.0-dev",
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
         "magento/module-authorization": "100.2.0-dev",
         "magento/module-authorizenet": "100.2.0-dev",
         "magento/module-backend": "100.2.0-dev",
@@ -93,6 +119,10 @@
         "magento/module-catalog": "101.1.0-dev",
         "magento/module-catalog-import-export": "100.2.0-dev",
         "magento/module-catalog-inventory": "100.2.0-dev",
+<<<<<<< HEAD
+=======
+        "magento/module-catalog-inventory-configurable-product": "100.2.0-dev",
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
         "magento/module-catalog-rule": "100.2.0-dev",
         "magento/module-catalog-rule-configurable": "100.2.0-dev",
         "magento/module-catalog-search": "100.2.0-dev",
@@ -110,6 +140,10 @@
         "magento/module-cron": "100.2.0-dev",
         "magento/module-currency-symbol": "100.2.0-dev",
         "magento/module-customer": "100.2.0-dev",
+<<<<<<< HEAD
+=======
+        "magento/module-customer-analytics": "100.2.0-dev",
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
         "magento/module-customer-import-export": "100.2.0-dev",
         "magento/module-deploy": "100.2.0-dev",
         "magento/module-developer": "100.2.0-dev",
@@ -151,7 +185,12 @@
         "magento/module-rss": "100.2.0-dev",
         "magento/module-rule": "100.2.0-dev",
         "magento/module-sales": "100.2.0-dev",
+<<<<<<< HEAD
         "magento/module-sales-inventory": "100.0.0-dev",
+=======
+        "magento/module-sales-analytics": "100.2.0-dev",
+        "magento/module-sales-inventory": "100.2.0-dev",
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
         "magento/module-sales-rule": "100.2.0-dev",
         "magento/module-sales-sequence": "100.2.0-dev",
         "magento/module-sample-data": "100.2.0-dev",
@@ -197,7 +236,11 @@
         "blueimp/jquery-file-upload": "5.6.14",
         "components/jqueryui": "1.10.4",
         "twbs/bootstrap": "3.1.0",
+<<<<<<< HEAD
         "tinymce/tinymce":">= 4"
+=======
+        "tinymce/tinymce": "3.4.7"
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
     },
     "extra": {
         "component_paths": {
@@ -217,9 +260,12 @@
             "tinymce/tinymce": "lib/web/tiny_mce"
         }
     },
+<<<<<<< HEAD
     "config": {
         "use-include-path": true
     },
+=======
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
     "autoload": {
         "psr-4": {
             "Magento\\Framework\\": "lib/internal/Magento/Framework/",
@@ -227,10 +273,25 @@
             "Magento\\": "app/code/Magento/"
         },
         "psr-0": {
+<<<<<<< HEAD
             "": "app/code/"
         },
         "files": [
             "app/etc/NonComposerComponentRegistration.php"
+=======
+            "": [
+                "app/code/",
+                "generated/code"
+            ]
+        },
+        "files": [
+            "app/etc/NonComposerComponentRegistration.php"
+        ],
+        "exclude-from-classmap": [
+            "**/dev/**",
+            "**/update/**",
+            "**/Test/**"
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
         ]
     },
     "autoload-dev": {
@@ -243,6 +304,7 @@
         }
     },
     "minimum-stability": "alpha",
+<<<<<<< HEAD
     "prefer-stable": true,
     "repositories": {
         "data-migration-tool": {
@@ -250,4 +312,7 @@
             "url": "https://github.com/magento/data-migration-tool"
         }
     }
+=======
+    "prefer-stable": true
+>>>>>>> 229eaabfb4fced7adf5a1b09486de2a513239a60
 }
